@@ -40,27 +40,35 @@
             this.SizeLabel = new System.Windows.Forms.Label();
             this.SizeListBox = new System.Windows.Forms.ListBox();
             this.OrderQuantityGroupBox = new System.Windows.Forms.GroupBox();
+            this.ValidAmountLabel = new System.Windows.Forms.Label();
             this.NumberSelectedLabel = new System.Windows.Forms.Label();
             this.QuantityTextBox = new System.Windows.Forms.TextBox();
-            this.ClearButton = new System.Windows.Forms.Button();
+            this.ExitButton = new System.Windows.Forms.Button();
             this.AddOrderButton = new System.Windows.Forms.Button();
             this.ClearMainButton = new System.Windows.Forms.Button();
             this.OptionSelectedPriceTextBox = new System.Windows.Forms.TextBox();
             this.PriceDisplayGroupBox = new System.Windows.Forms.GroupBox();
+            this.CurrentBasketTotalGroupBox = new System.Windows.Forms.GroupBox();
+            this.TotalOrderedStockTextBox = new System.Windows.Forms.TextBox();
+            this.TotalSalesOrderTextBox = new System.Windows.Forms.TextBox();
+            this.TotalBasketCostLabel = new System.Windows.Forms.Label();
+            this.TotalQuantityLabel = new System.Windows.Forms.Label();
             this.BagelTypeGroupBox.SuspendLayout();
             this.SizeGroupBox.SuspendLayout();
             this.OrderQuantityGroupBox.SuspendLayout();
             this.PriceDisplayGroupBox.SuspendLayout();
+            this.CurrentBasketTotalGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // CompleteOrderButton
             // 
             this.CompleteOrderButton.BackColor = System.Drawing.SystemColors.HotTrack;
+            this.CompleteOrderButton.Enabled = false;
             this.CompleteOrderButton.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.CompleteOrderButton.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.CompleteOrderButton.Location = new System.Drawing.Point(990, 38);
+            this.CompleteOrderButton.Location = new System.Drawing.Point(892, 581);
             this.CompleteOrderButton.Name = "CompleteOrderButton";
-            this.CompleteOrderButton.Size = new System.Drawing.Size(215, 38);
+            this.CompleteOrderButton.Size = new System.Drawing.Size(200, 38);
             this.CompleteOrderButton.TabIndex = 0;
             this.CompleteOrderButton.Text = "Complete Order";
             this.CompleteOrderButton.UseVisualStyleBackColor = false;
@@ -182,15 +190,27 @@
             // OrderQuantityGroupBox
             // 
             this.OrderQuantityGroupBox.BackColor = System.Drawing.SystemColors.Window;
+            this.OrderQuantityGroupBox.Controls.Add(this.ValidAmountLabel);
             this.OrderQuantityGroupBox.Controls.Add(this.NumberSelectedLabel);
             this.OrderQuantityGroupBox.Controls.Add(this.QuantityTextBox);
-            this.OrderQuantityGroupBox.Location = new System.Drawing.Point(733, 343);
+            this.OrderQuantityGroupBox.Location = new System.Drawing.Point(733, 19);
             this.OrderQuantityGroupBox.Name = "OrderQuantityGroupBox";
-            this.OrderQuantityGroupBox.Size = new System.Drawing.Size(300, 132);
+            this.OrderQuantityGroupBox.Size = new System.Drawing.Size(300, 231);
             this.OrderQuantityGroupBox.TabIndex = 3;
             this.OrderQuantityGroupBox.TabStop = false;
             this.OrderQuantityGroupBox.Text = "Order Quantity";
             this.OrderQuantityGroupBox.Visible = false;
+            // 
+            // ValidAmountLabel
+            // 
+            this.ValidAmountLabel.AutoSize = true;
+            this.ValidAmountLabel.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point);
+            this.ValidAmountLabel.Location = new System.Drawing.Point(45, 123);
+            this.ValidAmountLabel.Name = "ValidAmountLabel";
+            this.ValidAmountLabel.Size = new System.Drawing.Size(193, 75);
+            this.ValidAmountLabel.TabIndex = 2;
+            this.ValidAmountLabel.Text = "Please ensure there are\r\nno negative numbers \r\nor decimals inputted.";
+            this.ValidAmountLabel.Visible = false;
             // 
             // NumberSelectedLabel
             // 
@@ -211,20 +231,22 @@
             this.QuantityTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.QuantityTextBox.TextChanged += new System.EventHandler(this.QuantityTextBox_TextChanged);
             // 
-            // ClearButton
+            // ExitButton
             // 
-            this.ClearButton.BackColor = System.Drawing.SystemColors.HotTrack;
-            this.ClearButton.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.ClearButton.Location = new System.Drawing.Point(1055, 164);
-            this.ClearButton.Name = "ClearButton";
-            this.ClearButton.Size = new System.Drawing.Size(112, 34);
-            this.ClearButton.TabIndex = 4;
-            this.ClearButton.Text = "Clear";
-            this.ClearButton.UseVisualStyleBackColor = false;
+            this.ExitButton.BackColor = System.Drawing.SystemColors.HotTrack;
+            this.ExitButton.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.ExitButton.Location = new System.Drawing.Point(1055, 164);
+            this.ExitButton.Name = "ExitButton";
+            this.ExitButton.Size = new System.Drawing.Size(112, 34);
+            this.ExitButton.TabIndex = 4;
+            this.ExitButton.Text = "Exit";
+            this.ExitButton.UseVisualStyleBackColor = false;
+            this.ExitButton.Click += new System.EventHandler(this.ExitButton_Click);
             // 
             // AddOrderButton
             // 
             this.AddOrderButton.BackColor = System.Drawing.SystemColors.HotTrack;
+            this.AddOrderButton.Enabled = false;
             this.AddOrderButton.ForeColor = System.Drawing.SystemColors.ControlLightLight;
             this.AddOrderButton.Location = new System.Drawing.Point(1055, 354);
             this.AddOrderButton.Name = "AddOrderButton";
@@ -244,6 +266,7 @@
             this.ClearMainButton.TabIndex = 6;
             this.ClearMainButton.Text = "Clear";
             this.ClearMainButton.UseVisualStyleBackColor = false;
+            this.ClearMainButton.Click += new System.EventHandler(this.ClearMainButton_Click);
             // 
             // OptionSelectedPriceTextBox
             // 
@@ -265,15 +288,65 @@
             this.PriceDisplayGroupBox.Text = "Selected Combo Price";
             this.PriceDisplayGroupBox.Visible = false;
             // 
+            // CurrentBasketTotalGroupBox
+            // 
+            this.CurrentBasketTotalGroupBox.BackColor = System.Drawing.SystemColors.Window;
+            this.CurrentBasketTotalGroupBox.Controls.Add(this.TotalOrderedStockTextBox);
+            this.CurrentBasketTotalGroupBox.Controls.Add(this.TotalSalesOrderTextBox);
+            this.CurrentBasketTotalGroupBox.Controls.Add(this.TotalBasketCostLabel);
+            this.CurrentBasketTotalGroupBox.Controls.Add(this.TotalQuantityLabel);
+            this.CurrentBasketTotalGroupBox.Location = new System.Drawing.Point(733, 256);
+            this.CurrentBasketTotalGroupBox.Name = "CurrentBasketTotalGroupBox";
+            this.CurrentBasketTotalGroupBox.Size = new System.Drawing.Size(300, 219);
+            this.CurrentBasketTotalGroupBox.TabIndex = 8;
+            this.CurrentBasketTotalGroupBox.TabStop = false;
+            this.CurrentBasketTotalGroupBox.Text = "Current Basket Total";
+            this.CurrentBasketTotalGroupBox.Visible = false;
+            // 
+            // TotalOrderedStockTextBox
+            // 
+            this.TotalOrderedStockTextBox.Location = new System.Drawing.Point(129, 60);
+            this.TotalOrderedStockTextBox.Name = "TotalOrderedStockTextBox";
+            this.TotalOrderedStockTextBox.Size = new System.Drawing.Size(150, 34);
+            this.TotalOrderedStockTextBox.TabIndex = 3;
+            this.TotalOrderedStockTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // TotalSalesOrderTextBox
+            // 
+            this.TotalSalesOrderTextBox.Location = new System.Drawing.Point(129, 149);
+            this.TotalSalesOrderTextBox.Name = "TotalSalesOrderTextBox";
+            this.TotalSalesOrderTextBox.Size = new System.Drawing.Size(150, 34);
+            this.TotalSalesOrderTextBox.TabIndex = 2;
+            this.TotalSalesOrderTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // TotalBasketCostLabel
+            // 
+            this.TotalBasketCostLabel.AutoSize = true;
+            this.TotalBasketCostLabel.Location = new System.Drawing.Point(6, 152);
+            this.TotalBasketCostLabel.Name = "TotalBasketCostLabel";
+            this.TotalBasketCostLabel.Size = new System.Drawing.Size(111, 28);
+            this.TotalBasketCostLabel.TabIndex = 1;
+            this.TotalBasketCostLabel.Text = "Total Cost:";
+            // 
+            // TotalQuantityLabel
+            // 
+            this.TotalQuantityLabel.AutoSize = true;
+            this.TotalQuantityLabel.Location = new System.Drawing.Point(6, 51);
+            this.TotalQuantityLabel.Name = "TotalQuantityLabel";
+            this.TotalQuantityLabel.Size = new System.Drawing.Size(94, 56);
+            this.TotalQuantityLabel.TabIndex = 0;
+            this.TotalQuantityLabel.Text = "Bagels \r\nOrdered:";
+            // 
             // MainBagelForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 28F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1228, 657);
+            this.Controls.Add(this.CurrentBasketTotalGroupBox);
             this.Controls.Add(this.PriceDisplayGroupBox);
             this.Controls.Add(this.ClearMainButton);
             this.Controls.Add(this.AddOrderButton);
-            this.Controls.Add(this.ClearButton);
+            this.Controls.Add(this.ExitButton);
             this.Controls.Add(this.OrderQuantityGroupBox);
             this.Controls.Add(this.SizeGroupBox);
             this.Controls.Add(this.BagelTypeGroupBox);
@@ -291,6 +364,8 @@
             this.OrderQuantityGroupBox.PerformLayout();
             this.PriceDisplayGroupBox.ResumeLayout(false);
             this.PriceDisplayGroupBox.PerformLayout();
+            this.CurrentBasketTotalGroupBox.ResumeLayout(false);
+            this.CurrentBasketTotalGroupBox.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -310,10 +385,16 @@
         private GroupBox OrderQuantityGroupBox;
         private TextBox QuantityTextBox;
         private Label NumberSelectedLabel;
-        private Button ClearButton;
+        private Button ExitButton;
         private Button AddOrderButton;
         private Button ClearMainButton;
         private TextBox OptionSelectedPriceTextBox;
         private GroupBox PriceDisplayGroupBox;
+        private Label ValidAmountLabel;
+        private GroupBox CurrentBasketTotalGroupBox;
+        private TextBox TotalOrderedStockTextBox;
+        private TextBox TotalSalesOrderTextBox;
+        private Label TotalBasketCostLabel;
+        private Label TotalQuantityLabel;
     }
 }
