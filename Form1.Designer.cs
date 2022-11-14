@@ -34,6 +34,8 @@
             this.BagelPriceLabel = new System.Windows.Forms.Label();
             this.BagelTypeLabel = new System.Windows.Forms.Label();
             this.BagelTypeListBox = new System.Windows.Forms.ListBox();
+            this.SearchResultGroupBox = new System.Windows.Forms.GroupBox();
+            this.SearchFormListBox = new System.Windows.Forms.ListBox();
             this.SizeGroupBox = new System.Windows.Forms.GroupBox();
             this.LabelAdditionalCost = new System.Windows.Forms.Label();
             this.SizePriceLabel = new System.Windows.Forms.Label();
@@ -53,11 +55,25 @@
             this.TotalSalesOrderTextBox = new System.Windows.Forms.TextBox();
             this.TotalBasketCostLabel = new System.Windows.Forms.Label();
             this.TotalQuantityLabel = new System.Windows.Forms.Label();
+            this.CurrentBasketDetailsListBox = new System.Windows.Forms.ListBox();
+            this.SearchMainForm = new System.Windows.Forms.Button();
+            this.SearchFormGroupBox = new System.Windows.Forms.GroupBox();
+            this.SearchDateButton = new System.Windows.Forms.Button();
+            this.SearchOnlyOneLabel = new System.Windows.Forms.Label();
+            this.IDSearchButton = new System.Windows.Forms.Button();
+            this.DateSearchTextBox = new System.Windows.Forms.TextBox();
+            this.IDSearchTextBox = new System.Windows.Forms.TextBox();
+            this.SearchDateLabel = new System.Windows.Forms.Label();
+            this.SearchFormIDLabel = new System.Windows.Forms.Label();
+            this.ButtonPanel = new System.Windows.Forms.Panel();
             this.BagelTypeGroupBox.SuspendLayout();
+            this.SearchResultGroupBox.SuspendLayout();
             this.SizeGroupBox.SuspendLayout();
             this.OrderQuantityGroupBox.SuspendLayout();
             this.PriceDisplayGroupBox.SuspendLayout();
             this.CurrentBasketTotalGroupBox.SuspendLayout();
+            this.SearchFormGroupBox.SuspendLayout();
+            this.ButtonPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // CompleteOrderButton
@@ -66,9 +82,9 @@
             this.CompleteOrderButton.Enabled = false;
             this.CompleteOrderButton.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.CompleteOrderButton.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.CompleteOrderButton.Location = new System.Drawing.Point(892, 581);
+            this.CompleteOrderButton.Location = new System.Drawing.Point(32, 118);
             this.CompleteOrderButton.Name = "CompleteOrderButton";
-            this.CompleteOrderButton.Size = new System.Drawing.Size(200, 38);
+            this.CompleteOrderButton.Size = new System.Drawing.Size(194, 38);
             this.CompleteOrderButton.TabIndex = 0;
             this.CompleteOrderButton.Text = "Complete Order";
             this.CompleteOrderButton.UseVisualStyleBackColor = false;
@@ -128,6 +144,28 @@
             this.BagelTypeListBox.Size = new System.Drawing.Size(356, 368);
             this.BagelTypeListBox.TabIndex = 0;
             this.BagelTypeListBox.SelectedIndexChanged += new System.EventHandler(this.BagelTypeListBox_SelectedIndexChanged);
+            // 
+            // SearchResultGroupBox
+            // 
+            this.SearchResultGroupBox.BackColor = System.Drawing.SystemColors.Window;
+            this.SearchResultGroupBox.Controls.Add(this.SearchFormListBox);
+            this.SearchResultGroupBox.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.SearchResultGroupBox.Location = new System.Drawing.Point(19, 580);
+            this.SearchResultGroupBox.Name = "SearchResultGroupBox";
+            this.SearchResultGroupBox.Size = new System.Drawing.Size(540, 247);
+            this.SearchResultGroupBox.TabIndex = 12;
+            this.SearchResultGroupBox.TabStop = false;
+            this.SearchResultGroupBox.Text = "Search Result";
+            this.SearchResultGroupBox.Visible = false;
+            // 
+            // SearchFormListBox
+            // 
+            this.SearchFormListBox.FormattingEnabled = true;
+            this.SearchFormListBox.ItemHeight = 28;
+            this.SearchFormListBox.Location = new System.Drawing.Point(20, 54);
+            this.SearchFormListBox.Name = "SearchFormListBox";
+            this.SearchFormListBox.Size = new System.Drawing.Size(484, 172);
+            this.SearchFormListBox.TabIndex = 0;
             // 
             // SizeGroupBox
             // 
@@ -235,9 +273,9 @@
             // 
             this.ExitButton.BackColor = System.Drawing.SystemColors.HotTrack;
             this.ExitButton.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.ExitButton.Location = new System.Drawing.Point(1055, 164);
+            this.ExitButton.Location = new System.Drawing.Point(32, 380);
             this.ExitButton.Name = "ExitButton";
-            this.ExitButton.Size = new System.Drawing.Size(112, 34);
+            this.ExitButton.Size = new System.Drawing.Size(194, 34);
             this.ExitButton.TabIndex = 4;
             this.ExitButton.Text = "Exit";
             this.ExitButton.UseVisualStyleBackColor = false;
@@ -248,9 +286,9 @@
             this.AddOrderButton.BackColor = System.Drawing.SystemColors.HotTrack;
             this.AddOrderButton.Enabled = false;
             this.AddOrderButton.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.AddOrderButton.Location = new System.Drawing.Point(1055, 354);
+            this.AddOrderButton.Location = new System.Drawing.Point(32, 32);
             this.AddOrderButton.Name = "AddOrderButton";
-            this.AddOrderButton.Size = new System.Drawing.Size(165, 34);
+            this.AddOrderButton.Size = new System.Drawing.Size(194, 34);
             this.AddOrderButton.TabIndex = 5;
             this.AddOrderButton.Text = "Add to Order";
             this.AddOrderButton.UseVisualStyleBackColor = false;
@@ -260,9 +298,9 @@
             // 
             this.ClearMainButton.BackColor = System.Drawing.SystemColors.HotTrack;
             this.ClearMainButton.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.ClearMainButton.Location = new System.Drawing.Point(1055, 244);
+            this.ClearMainButton.Location = new System.Drawing.Point(32, 294);
             this.ClearMainButton.Name = "ClearMainButton";
-            this.ClearMainButton.Size = new System.Drawing.Size(112, 34);
+            this.ClearMainButton.Size = new System.Drawing.Size(194, 34);
             this.ClearMainButton.TabIndex = 6;
             this.ClearMainButton.Text = "Clear";
             this.ClearMainButton.UseVisualStyleBackColor = false;
@@ -337,20 +375,142 @@
             this.TotalQuantityLabel.TabIndex = 0;
             this.TotalQuantityLabel.Text = "Bagels \r\nOrdered:";
             // 
+            // CurrentBasketDetailsListBox
+            // 
+            this.CurrentBasketDetailsListBox.FormattingEnabled = true;
+            this.CurrentBasketDetailsListBox.ItemHeight = 28;
+            this.CurrentBasketDetailsListBox.Location = new System.Drawing.Point(328, 481);
+            this.CurrentBasketDetailsListBox.Name = "CurrentBasketDetailsListBox";
+            this.CurrentBasketDetailsListBox.Size = new System.Drawing.Size(586, 200);
+            this.CurrentBasketDetailsListBox.TabIndex = 9;
+            this.CurrentBasketDetailsListBox.Visible = false;
+            // 
+            // SearchMainForm
+            // 
+            this.SearchMainForm.BackColor = System.Drawing.SystemColors.HotTrack;
+            this.SearchMainForm.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.SearchMainForm.Location = new System.Drawing.Point(32, 208);
+            this.SearchMainForm.Name = "SearchMainForm";
+            this.SearchMainForm.Size = new System.Drawing.Size(194, 34);
+            this.SearchMainForm.TabIndex = 10;
+            this.SearchMainForm.Text = "Search";
+            this.SearchMainForm.UseVisualStyleBackColor = false;
+            this.SearchMainForm.Click += new System.EventHandler(this.SearchMainForm_Click);
+            // 
+            // SearchFormGroupBox
+            // 
+            this.SearchFormGroupBox.BackColor = System.Drawing.SystemColors.Window;
+            this.SearchFormGroupBox.Controls.Add(this.SearchDateButton);
+            this.SearchFormGroupBox.Controls.Add(this.SearchOnlyOneLabel);
+            this.SearchFormGroupBox.Controls.Add(this.IDSearchButton);
+            this.SearchFormGroupBox.Controls.Add(this.DateSearchTextBox);
+            this.SearchFormGroupBox.Controls.Add(this.IDSearchTextBox);
+            this.SearchFormGroupBox.Controls.Add(this.SearchDateLabel);
+            this.SearchFormGroupBox.Controls.Add(this.SearchFormIDLabel);
+            this.SearchFormGroupBox.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+            this.SearchFormGroupBox.Location = new System.Drawing.Point(338, 12);
+            this.SearchFormGroupBox.Name = "SearchFormGroupBox";
+            this.SearchFormGroupBox.Size = new System.Drawing.Size(540, 193);
+            this.SearchFormGroupBox.TabIndex = 11;
+            this.SearchFormGroupBox.TabStop = false;
+            this.SearchFormGroupBox.Text = "Search Previous Transaction";
+            this.SearchFormGroupBox.Visible = false;
+            // 
+            // SearchDateButton
+            // 
+            this.SearchDateButton.BackColor = System.Drawing.SystemColors.HotTrack;
+            this.SearchDateButton.ForeColor = System.Drawing.SystemColors.Window;
+            this.SearchDateButton.Location = new System.Drawing.Point(352, 114);
+            this.SearchDateButton.Name = "SearchDateButton";
+            this.SearchDateButton.Size = new System.Drawing.Size(160, 34);
+            this.SearchDateButton.TabIndex = 6;
+            this.SearchDateButton.Text = "Search Date";
+            this.SearchDateButton.UseVisualStyleBackColor = false;
+            this.SearchDateButton.Click += new System.EventHandler(this.SearchDateButton_Click);
+            // 
+            // SearchOnlyOneLabel
+            // 
+            this.SearchOnlyOneLabel.AutoSize = true;
+            this.SearchOnlyOneLabel.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point);
+            this.SearchOnlyOneLabel.Location = new System.Drawing.Point(116, 165);
+            this.SearchOnlyOneLabel.Name = "SearchOnlyOneLabel";
+            this.SearchOnlyOneLabel.Size = new System.Drawing.Size(320, 25);
+            this.SearchOnlyOneLabel.TabIndex = 5;
+            this.SearchOnlyOneLabel.Text = "Please Search only One Term at a time.";
+            // 
+            // IDSearchButton
+            // 
+            this.IDSearchButton.BackColor = System.Drawing.SystemColors.HotTrack;
+            this.IDSearchButton.ForeColor = System.Drawing.SystemColors.Window;
+            this.IDSearchButton.Location = new System.Drawing.Point(352, 54);
+            this.IDSearchButton.Name = "IDSearchButton";
+            this.IDSearchButton.Size = new System.Drawing.Size(160, 35);
+            this.IDSearchButton.TabIndex = 4;
+            this.IDSearchButton.Text = "Search ID";
+            this.IDSearchButton.UseVisualStyleBackColor = false;
+            this.IDSearchButton.Click += new System.EventHandler(this.IDSearchButton_Click);
+            // 
+            // DateSearchTextBox
+            // 
+            this.DateSearchTextBox.Location = new System.Drawing.Point(160, 114);
+            this.DateSearchTextBox.Name = "DateSearchTextBox";
+            this.DateSearchTextBox.Size = new System.Drawing.Size(175, 34);
+            this.DateSearchTextBox.TabIndex = 3;
+            this.DateSearchTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // IDSearchTextBox
+            // 
+            this.IDSearchTextBox.Location = new System.Drawing.Point(160, 53);
+            this.IDSearchTextBox.Name = "IDSearchTextBox";
+            this.IDSearchTextBox.Size = new System.Drawing.Size(175, 34);
+            this.IDSearchTextBox.TabIndex = 2;
+            this.IDSearchTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // SearchDateLabel
+            // 
+            this.SearchDateLabel.AutoSize = true;
+            this.SearchDateLabel.Location = new System.Drawing.Point(20, 114);
+            this.SearchDateLabel.Name = "SearchDateLabel";
+            this.SearchDateLabel.Size = new System.Drawing.Size(131, 28);
+            this.SearchDateLabel.TabIndex = 1;
+            this.SearchDateLabel.Text = "Search Date:";
+            // 
+            // SearchFormIDLabel
+            // 
+            this.SearchFormIDLabel.AutoSize = true;
+            this.SearchFormIDLabel.Location = new System.Drawing.Point(20, 56);
+            this.SearchFormIDLabel.Name = "SearchFormIDLabel";
+            this.SearchFormIDLabel.Size = new System.Drawing.Size(107, 28);
+            this.SearchFormIDLabel.TabIndex = 0;
+            this.SearchFormIDLabel.Text = "Search ID:";
+            // 
+            // ButtonPanel
+            // 
+            this.ButtonPanel.BackColor = System.Drawing.SystemColors.Window;
+            this.ButtonPanel.Controls.Add(this.AddOrderButton);
+            this.ButtonPanel.Controls.Add(this.CompleteOrderButton);
+            this.ButtonPanel.Controls.Add(this.SearchMainForm);
+            this.ButtonPanel.Controls.Add(this.ClearMainButton);
+            this.ButtonPanel.Controls.Add(this.ExitButton);
+            this.ButtonPanel.Location = new System.Drawing.Point(1044, 19);
+            this.ButtonPanel.Name = "ButtonPanel";
+            this.ButtonPanel.Size = new System.Drawing.Size(252, 456);
+            this.ButtonPanel.TabIndex = 13;
+            // 
             // MainBagelForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 28F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1228, 657);
+            this.ClientSize = new System.Drawing.Size(1325, 877);
+            this.Controls.Add(this.ButtonPanel);
+            this.Controls.Add(this.SearchResultGroupBox);
+            this.Controls.Add(this.SearchFormGroupBox);
+            this.Controls.Add(this.CurrentBasketDetailsListBox);
             this.Controls.Add(this.CurrentBasketTotalGroupBox);
             this.Controls.Add(this.PriceDisplayGroupBox);
-            this.Controls.Add(this.ClearMainButton);
-            this.Controls.Add(this.AddOrderButton);
-            this.Controls.Add(this.ExitButton);
             this.Controls.Add(this.OrderQuantityGroupBox);
             this.Controls.Add(this.SizeGroupBox);
             this.Controls.Add(this.BagelTypeGroupBox);
-            this.Controls.Add(this.CompleteOrderButton);
             this.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainBagelForm";
@@ -358,6 +518,7 @@
             this.Load += new System.EventHandler(this.MainBagelForm_Load);
             this.BagelTypeGroupBox.ResumeLayout(false);
             this.BagelTypeGroupBox.PerformLayout();
+            this.SearchResultGroupBox.ResumeLayout(false);
             this.SizeGroupBox.ResumeLayout(false);
             this.SizeGroupBox.PerformLayout();
             this.OrderQuantityGroupBox.ResumeLayout(false);
@@ -366,6 +527,9 @@
             this.PriceDisplayGroupBox.PerformLayout();
             this.CurrentBasketTotalGroupBox.ResumeLayout(false);
             this.CurrentBasketTotalGroupBox.PerformLayout();
+            this.SearchFormGroupBox.ResumeLayout(false);
+            this.SearchFormGroupBox.PerformLayout();
+            this.ButtonPanel.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -396,5 +560,18 @@
         private TextBox TotalSalesOrderTextBox;
         private Label TotalBasketCostLabel;
         private Label TotalQuantityLabel;
+        private ListBox CurrentBasketDetailsListBox;
+        private Button SearchMainForm;
+        private GroupBox SearchResultGroupBox;
+        private ListBox SearchFormListBox;
+        private GroupBox SearchFormGroupBox;
+        private Label SearchOnlyOneLabel;
+        private Button IDSearchButton;
+        private TextBox DateSearchTextBox;
+        private TextBox IDSearchTextBox;
+        private Label SearchDateLabel;
+        private Label SearchFormIDLabel;
+        private Panel ButtonPanel;
+        private Button SearchDateButton;
     }
 }

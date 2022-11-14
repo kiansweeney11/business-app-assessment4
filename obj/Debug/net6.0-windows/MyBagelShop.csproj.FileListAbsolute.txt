@@ -4,8 +4,10 @@ C:\Users\user\Desktop\Masters\Ms806-BusApp\MyBagelShop\bin\Debug\net6.0-windows\
 C:\Users\user\Desktop\Masters\Ms806-BusApp\MyBagelShop\bin\Debug\net6.0-windows\MyBagelShop.dll
 C:\Users\user\Desktop\Masters\Ms806-BusApp\MyBagelShop\bin\Debug\net6.0-windows\MyBagelShop.pdb
 C:\Users\user\Desktop\Masters\Ms806-BusApp\MyBagelShop\obj\Debug\net6.0-windows\MyBagelShop.csproj.AssemblyReference.cache
+C:\Users\user\Desktop\Masters\Ms806-BusApp\MyBagelShop\obj\Debug\net6.0-windows\MyBagelShop.CompanyReceipt.resources
 C:\Users\user\Desktop\Masters\Ms806-BusApp\MyBagelShop\obj\Debug\net6.0-windows\MyBagelShop.MainBagelForm.resources
 C:\Users\user\Desktop\Masters\Ms806-BusApp\MyBagelShop\obj\Debug\net6.0-windows\MyBagelShop.ManagementSummaryForm.resources
+C:\Users\user\Desktop\Masters\Ms806-BusApp\MyBagelShop\obj\Debug\net6.0-windows\MyBagelShop.Properties.Resources.resources
 C:\Users\user\Desktop\Masters\Ms806-BusApp\MyBagelShop\obj\Debug\net6.0-windows\MyBagelShop.csproj.GenerateResource.cache
 C:\Users\user\Desktop\Masters\Ms806-BusApp\MyBagelShop\obj\Debug\net6.0-windows\MyBagelShop.GeneratedMSBuildEditorConfig.editorconfig
 C:\Users\user\Desktop\Masters\Ms806-BusApp\MyBagelShop\obj\Debug\net6.0-windows\MyBagelShop.AssemblyInfoInputs.cache

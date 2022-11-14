@@ -12,8 +12,12 @@
 
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing.Imaging;
+using System.IO;
 using System.Reflection.Metadata.Ecma335;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 
 namespace MyBagelShop
 {
@@ -74,7 +78,121 @@ namespace MyBagelShop
 
         private void CompleteOrderButton_Click(object sender, EventArgs e)
         {
+            decimal TotalCostOrder = 0.00m;
+            String OrderDetailsReceipt = "";
+            String DateReceipt;
+            int TransactionID;
+            CompanyReceipt MyCompanyReceipt = new CompanyReceipt();
+            for (int i = 0; i < Basket.Count; i++)
+            {
+                // get total order cost
+                TotalCostOrder += (BagelTypeCosts[Basket[i][0]] + BagelSizeCosts[Basket[i][1]]) * Basket[i][2];
+            }
+            // get value of each row as per spec
+            List<decimal> BasketRowValues = new List<decimal>();
+            for (int i = 0; i < Basket.Count; i++)
+            {
+                // get cost for each line
+                decimal TotalCostRow = (BagelTypeCosts[Basket[i][0]] + BagelSizeCosts[Basket[i][1]]) * Basket[i][2];
+                BasketRowValues.Add(TotalCostRow);
+            }
 
+            DateReceipt = DateTime.Now.ToString("yyyy-MM-dd hh:mm");
+            TransactionID = TransactionIDGenerator();
+            for(int i = 0; i < BasketRowValues.Count; i++)
+            {
+                OrderDetailsReceipt += (BagelTypes[Basket[i][0]].ToString()) + "\t" + (BagelSize[Basket[i][1]].ToString()) + "\t" + BasketRowValues[i].ToString("C") + System.Environment.NewLine;
+            }
+            //Thread.Sleep(2000);
+            StreamWriter InputFile = File.AppendText(ORDERDETAILS);
+            InputFile.WriteLine(TransactionID);
+            InputFile.WriteLine(DateReceipt);
+            InputFile.WriteLine(TotalCostOrder);
+            InputFile.WriteLine(OrderDetailsReceipt);
+            InputFile.Close();
+            //Debug.WriteLine(OrderDetailsReceipt);
+            MyCompanyReceipt.DisplayCompanyReceipt(TransactionID, DateReceipt, TotalCostOrder, OrderDetailsReceipt);
+            MyCompanyReceipt.ShowDialog();
+            ClearMainButton_Click(sender, e);
+            //if (File.Exists(ORDERDETAILS))
+            //{
+                //Thread.Sleep(2000);
+             //   StreamWriter InputFile = File.AppendText(ORDERDETAILS);
+             // /  InputFile.WriteLine(TransactionID);
+                //InputFile.WriteLine(DateReceipt);
+                //InputFile.WriteLine(OrderDetailsReceipt);
+                //InputFile.Close();
+                //Debug.WriteLine(OrderDetailsReceipt);
+                //MyCompanyReceipt.DisplayCompanyReceipt(TransactionID, DateReceipt, TotalCostOrder, OrderDetailsReceipt);
+                //MyCompanyReceipt.ShowDialog();
+                //ClearMainButton_Click(sender, e);
+            //}
+            //else
+            //{
+            //    MessageBox.Show("Invalid File.", "Info");
+            //}
+        }
+
+        private int CalculateFileLines()
+        {
+            // lines count is variable for iterating through
+            // this is set as 1 due to it only being used if file does exist
+            int LinesCount = 1, TotalLines;
+            try
+            {
+                StreamReader OutputFile = File.OpenText(ORDERDETAILS);
+                while (OutputFile.ReadLine() != null)
+                {
+                    LinesCount++;
+                }
+                TotalLines = LinesCount;
+                OutputFile.Close();
+            }
+            catch
+            {
+                // assign zero lines to this
+                // an error message is unncessary
+                TotalLines = 0;
+            }
+            return TotalLines;
+        }
+
+
+        private int TransactionIDGenerator()
+        {
+            int FileLines = CalculateFileLines();
+            Random Rand = new Random();
+            int rand = Rand.Next(0, 99999);
+            if (FileLines >= 1)
+            {
+                StreamReader OutputFile = File.OpenText(ORDERDETAILS);
+                while (OutputFile.ReadLine() != null)
+                {
+                    for (int i = 1; i <= FileLines; i++)
+                    {
+                        if (OutputFile.ReadLine() == rand.ToString("D5"))
+                        {
+                            // call function again to try generate a new unique number
+                            TransactionIDGenerator();
+                        }
+                        else
+                        {
+                            // generates random number if not on file
+                            return rand;
+                            OutputFile.Close();
+                            break;
+                        }
+                    }
+                }
+                OutputFile.Close();
+                return rand;
+            }
+            else
+            {
+                // handle when file is empty to start
+                // if we leave an error message our id wont be generated. this addresses this.
+                return rand;
+            }
         }
 
         private void AddOrderButton_Click(object sender, EventArgs e)
@@ -125,18 +243,20 @@ namespace MyBagelShop
                     }
                     else
                     {
-                        string Details = BagelTypes[BagelTypeSelectedIndex] + "\t" + BagelSize[BagelSizeSelectedIndex] + "\t" +
-                                         "\t" + QuantityOrderedCount;
-                        //ItemBasket.Items.Add(Details);
-
+                        string Quant = QuantityOrderedCount.ToString();
+                        string Details = BagelTypes[BagelTypeSelectedIndex].PadRight(20 - BagelTypes[BagelTypeSelectedIndex].Length) + "\t" 
+                            +  BagelSize[BagelSizeSelectedIndex].PadRight(15 - BagelSize[BagelSizeSelectedIndex].Length) + "\t" +
+                                          Quant.PadRight(40 - (BagelSize[BagelSizeSelectedIndex].Length + BagelTypes[BagelTypeSelectedIndex].Length)) +  "\n";
+                        CurrentBasketDetailsListBox.Items.Add(Details);
                         int[] ItemDetails = {BagelTypeSelectedIndex, BagelSizeSelectedIndex, QuantityOrderedCount};
                         Basket.Add(ItemDetails);
-
 
                         CompleteOrderButton.Enabled = true;
                         CompleteOrderButton.Focus();
 
-                        UpdateTotals();
+                        UpdateBasketTotals();
+                        this.QuantityTextBox.Clear();
+                        this.CurrentBasketDetailsListBox.Visible = true;
                         this.CurrentBasketTotalGroupBox.Visible = true;
                     }
                 }
@@ -151,15 +271,151 @@ namespace MyBagelShop
             }
         }
 
+        private void SearchMainForm_Click(object sender, EventArgs e)
+        {
+            ClearMainButton_Click(sender, e);
+            this.BagelTypeGroupBox.Visible = false;
+            this.SizeGroupBox.Visible = false;
+            this.SearchFormGroupBox.Visible = true;
+        }
+
+        private void IDSearchButton_Click(object sender, EventArgs e)
+        {
+            int TotalLinesFile = CalculateFileLines();
+            // clear for next search if user wants to check another ID
+            SearchFormListBox.Items.Clear();
+            String TransactIDString = this.IDSearchTextBox.Text;
+            // transaction ID's are only length 5 and digits so make sure
+            // these conditions are met
+            if(TransactIDString.Length == 5)
+            {
+                StreamReader OutputFile = File.OpenText(ORDERDETAILS);
+                string LineRead = OutputFile.ReadLine();
+                while(LineRead != null)
+                {
+                    if (LineRead == TransactIDString)
+                    {
+                        // strings to clarify user what the returned results are
+                        SearchResultGroupBox.Visible = true;
+                        SearchFormListBox.Items.Add("ID is: " + LineRead);
+                        SearchFormListBox.Items.Add("Order Date/Time was: " + OutputFile.ReadLine());
+                        SearchFormListBox.Items.Add("Total Cost was: €" + OutputFile.ReadLine());
+                        String Details = OutputFile.ReadLine();
+                        while(LineRead.Equals(TransactIDString))
+                        {
+                            String[] words = Details.Split("\t");
+                            //Debug.WriteLine(words.Length);
+                            if (words.Length > 1)
+                            {
+                                SearchFormListBox.Items.Add("Order Details were: " + Details);
+                                Details = OutputFile.ReadLine();
+                            }
+                            else
+                            {
+                                LineRead = Details;
+                            }
+                        }
+                        break;
+
+                    }
+                    else
+                    {
+                        LineRead = OutputFile.ReadLine();
+                    }
+                }
+                OutputFile.Close();
+                if (SearchFormListBox.Items.Count < 1)
+                {
+                    MessageBox.Show("ID inputted not on file", "Info",
+MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    this.IDSearchTextBox.Focus();
+                    // if already visible from an initial check - hide
+                    SearchFormListBox.Visible = false;
+                }
+            }
+            else
+            {
+                MessageBox.Show("Please input a valid ID.\nPlease ensure 5 numeric characters are inputted.", "Error",
+    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                this.IDSearchTextBox.Focus();
+                // if already visible from an initial check - hide
+                SearchFormListBox.Visible = false;
+            }
+
+        }
+
+        private void SearchDateButton_Click(object sender, EventArgs e)
+        {
+            int TotalLinesFile = CalculateFileLines();
+            // clear for next search if user wants to check another time
+            SearchFormListBox.Items.Clear();
+            String Prev = "";
+            String TimeString = this.DateSearchTextBox.Text;
+            if (TimeString.Length > 5)
+            {
+                StreamReader OutputFile = File.OpenText(ORDERDETAILS);
+                string LineRead = OutputFile.ReadLine();
+                while (LineRead != null)
+                {
+                    if (LineRead == TimeString)
+                    {
+                        // strings to clarify user what the returned results are
+                        SearchResultGroupBox.Visible = true;
+                        SearchFormListBox.Items.Add("ID is: " + Prev);
+                        SearchFormListBox.Items.Add("Order Date/Time was: " + LineRead);
+                        SearchFormListBox.Items.Add("Total Cost was: €" + OutputFile.ReadLine());
+                        String Details = OutputFile.ReadLine();
+                        while (LineRead.Equals(TimeString))
+                        {
+                            String[] words = Details.Split("\t");
+                            //Debug.WriteLine(words.Length);
+                            if (words.Length > 1)
+                            {
+                                SearchFormListBox.Items.Add("Order Details were: " + Details);
+                                Details = OutputFile.ReadLine();
+                            }
+                            else
+                            {
+                                Prev = LineRead;
+                                LineRead = Details;
+                            }
+                        }
+                        //break;
+
+                    }
+                    else
+                    {
+                        Prev = LineRead;
+                        LineRead = OutputFile.ReadLine();
+                    }
+                }
+                OutputFile.Close();
+                if (SearchFormListBox.Items.Count < 1)
+                {
+                    MessageBox.Show("Time of transaction inputted not on file", "Info",
+MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    this.IDSearchTextBox.Focus();
+                    // if already visible from an initial check - hide
+                    SearchFormListBox.Visible = false;
+                }
+            }
+            else
+            {
+                MessageBox.Show("Please input a valid date/time.", "Error",
+    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                this.IDSearchTextBox.Focus();
+                // if already visible from an initial check - hide
+                SearchFormListBox.Visible = false;
+            }
+        }
+
         private void MainBagelForm_Load(object sender, EventArgs e)
         {
             if (File.Exists(CLOSINGFILE))
             {
                 try
                 {
-                    StreamReader InputFile;
-                    InputFile = File.OpenText(CLOSINGFILE);
-
+                    StreamReader InputFile = File.OpenText(CLOSINGFILE);
                     //Read File and Save to PlacesAvailable
                     for (int i = 0; i < BagelTypes.Length; i++)
                     {
@@ -254,7 +510,7 @@ BagelSizeCosts[SizeListBox.SelectedIndex]).ToString("C");
             
         }
 
-        private void UpdateTotals()
+        private void UpdateBasketTotals()
         {
             //calculate and display basket totals
             decimal TotalBasketCost = 0;
@@ -269,7 +525,6 @@ BagelSizeCosts[SizeListBox.SelectedIndex]).ToString("C");
             }
             TotalSalesOrderTextBox.Text = TotalBasketCost.ToString("C");
             TotalOrderedStockTextBox.Text = TotalStockOrder.ToString();
-
         }
 
         private void ClearMainButton_Click(object sender, EventArgs e)
@@ -281,6 +536,15 @@ BagelSizeCosts[SizeListBox.SelectedIndex]).ToString("C");
             this.OrderQuantityGroupBox.Visible = false;
             this.PriceDisplayGroupBox.Visible = false;
             this.CurrentBasketTotalGroupBox.Visible = false;
+            this.CurrentBasketDetailsListBox.Visible = false;
+            this.CurrentBasketDetailsListBox.Items.Clear();
+            this.AddOrderButton.Enabled = false;
+            this.CompleteOrderButton.Enabled = false;
+            this.BagelTypeGroupBox.Visible = true;
+            this.SizeGroupBox.Visible = true;
+            this.SearchFormGroupBox.Visible = false;
+            this.SearchResultGroupBox.Visible = false;
+            Basket.Clear();
         }
 
         private void ExitButton_Click(object sender, EventArgs e)
