@@ -58,14 +58,13 @@
             this.CurrentBasketDetailsListBox = new System.Windows.Forms.ListBox();
             this.SearchMainForm = new System.Windows.Forms.Button();
             this.SearchFormGroupBox = new System.Windows.Forms.GroupBox();
-            this.SearchDateButton = new System.Windows.Forms.Button();
-            this.SearchOnlyOneLabel = new System.Windows.Forms.Label();
-            this.IDSearchButton = new System.Windows.Forms.Button();
-            this.DateSearchTextBox = new System.Windows.Forms.TextBox();
-            this.IDSearchTextBox = new System.Windows.Forms.TextBox();
-            this.SearchDateLabel = new System.Windows.Forms.Label();
+            this.DateRadioButton = new System.Windows.Forms.RadioButton();
+            this.IDRadioButton = new System.Windows.Forms.RadioButton();
+            this.SearchPreviousButton = new System.Windows.Forms.Button();
+            this.SearchPrevTextBox = new System.Windows.Forms.TextBox();
             this.SearchFormIDLabel = new System.Windows.Forms.Label();
             this.ButtonPanel = new System.Windows.Forms.Panel();
+            this.SummaryButton = new System.Windows.Forms.Button();
             this.BagelTypeGroupBox.SuspendLayout();
             this.SearchResultGroupBox.SuspendLayout();
             this.SizeGroupBox.SuspendLayout();
@@ -82,7 +81,7 @@
             this.CompleteOrderButton.Enabled = false;
             this.CompleteOrderButton.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.CompleteOrderButton.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.CompleteOrderButton.Location = new System.Drawing.Point(32, 118);
+            this.CompleteOrderButton.Location = new System.Drawing.Point(32, 100);
             this.CompleteOrderButton.Name = "CompleteOrderButton";
             this.CompleteOrderButton.Size = new System.Drawing.Size(194, 38);
             this.CompleteOrderButton.TabIndex = 0;
@@ -273,7 +272,7 @@
             // 
             this.ExitButton.BackColor = System.Drawing.SystemColors.HotTrack;
             this.ExitButton.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.ExitButton.Location = new System.Drawing.Point(32, 380);
+            this.ExitButton.Location = new System.Drawing.Point(32, 376);
             this.ExitButton.Name = "ExitButton";
             this.ExitButton.Size = new System.Drawing.Size(194, 34);
             this.ExitButton.TabIndex = 4;
@@ -298,7 +297,7 @@
             // 
             this.ClearMainButton.BackColor = System.Drawing.SystemColors.HotTrack;
             this.ClearMainButton.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.ClearMainButton.Location = new System.Drawing.Point(32, 294);
+            this.ClearMainButton.Location = new System.Drawing.Point(32, 308);
             this.ClearMainButton.Name = "ClearMainButton";
             this.ClearMainButton.Size = new System.Drawing.Size(194, 34);
             this.ClearMainButton.TabIndex = 6;
@@ -389,7 +388,7 @@
             // 
             this.SearchMainForm.BackColor = System.Drawing.SystemColors.HotTrack;
             this.SearchMainForm.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.SearchMainForm.Location = new System.Drawing.Point(32, 208);
+            this.SearchMainForm.Location = new System.Drawing.Point(32, 172);
             this.SearchMainForm.Name = "SearchMainForm";
             this.SearchMainForm.Size = new System.Drawing.Size(194, 34);
             this.SearchMainForm.TabIndex = 10;
@@ -400,12 +399,10 @@
             // SearchFormGroupBox
             // 
             this.SearchFormGroupBox.BackColor = System.Drawing.SystemColors.Window;
-            this.SearchFormGroupBox.Controls.Add(this.SearchDateButton);
-            this.SearchFormGroupBox.Controls.Add(this.SearchOnlyOneLabel);
-            this.SearchFormGroupBox.Controls.Add(this.IDSearchButton);
-            this.SearchFormGroupBox.Controls.Add(this.DateSearchTextBox);
-            this.SearchFormGroupBox.Controls.Add(this.IDSearchTextBox);
-            this.SearchFormGroupBox.Controls.Add(this.SearchDateLabel);
+            this.SearchFormGroupBox.Controls.Add(this.DateRadioButton);
+            this.SearchFormGroupBox.Controls.Add(this.IDRadioButton);
+            this.SearchFormGroupBox.Controls.Add(this.SearchPreviousButton);
+            this.SearchFormGroupBox.Controls.Add(this.SearchPrevTextBox);
             this.SearchFormGroupBox.Controls.Add(this.SearchFormIDLabel);
             this.SearchFormGroupBox.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.SearchFormGroupBox.Location = new System.Drawing.Point(338, 12);
@@ -416,77 +413,61 @@
             this.SearchFormGroupBox.Text = "Search Previous Transaction";
             this.SearchFormGroupBox.Visible = false;
             // 
-            // SearchDateButton
+            // DateRadioButton
             // 
-            this.SearchDateButton.BackColor = System.Drawing.SystemColors.HotTrack;
-            this.SearchDateButton.ForeColor = System.Drawing.SystemColors.Window;
-            this.SearchDateButton.Location = new System.Drawing.Point(352, 114);
-            this.SearchDateButton.Name = "SearchDateButton";
-            this.SearchDateButton.Size = new System.Drawing.Size(160, 34);
-            this.SearchDateButton.TabIndex = 6;
-            this.SearchDateButton.Text = "Search Date";
-            this.SearchDateButton.UseVisualStyleBackColor = false;
-            this.SearchDateButton.Click += new System.EventHandler(this.SearchDateButton_Click);
+            this.DateRadioButton.AutoSize = true;
+            this.DateRadioButton.Location = new System.Drawing.Point(230, 61);
+            this.DateRadioButton.Name = "DateRadioButton";
+            this.DateRadioButton.Size = new System.Drawing.Size(138, 32);
+            this.DateRadioButton.TabIndex = 6;
+            this.DateRadioButton.TabStop = true;
+            this.DateRadioButton.Text = "Date/Time";
+            this.DateRadioButton.UseVisualStyleBackColor = true;
             // 
-            // SearchOnlyOneLabel
+            // IDRadioButton
             // 
-            this.SearchOnlyOneLabel.AutoSize = true;
-            this.SearchOnlyOneLabel.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point);
-            this.SearchOnlyOneLabel.Location = new System.Drawing.Point(116, 165);
-            this.SearchOnlyOneLabel.Name = "SearchOnlyOneLabel";
-            this.SearchOnlyOneLabel.Size = new System.Drawing.Size(320, 25);
-            this.SearchOnlyOneLabel.TabIndex = 5;
-            this.SearchOnlyOneLabel.Text = "Please Search only One Term at a time.";
+            this.IDRadioButton.AutoSize = true;
+            this.IDRadioButton.Location = new System.Drawing.Point(62, 61);
+            this.IDRadioButton.Name = "IDRadioButton";
+            this.IDRadioButton.Size = new System.Drawing.Size(58, 32);
+            this.IDRadioButton.TabIndex = 5;
+            this.IDRadioButton.TabStop = true;
+            this.IDRadioButton.Text = "ID";
+            this.IDRadioButton.UseVisualStyleBackColor = true;
             // 
-            // IDSearchButton
+            // SearchPreviousButton
             // 
-            this.IDSearchButton.BackColor = System.Drawing.SystemColors.HotTrack;
-            this.IDSearchButton.ForeColor = System.Drawing.SystemColors.Window;
-            this.IDSearchButton.Location = new System.Drawing.Point(352, 54);
-            this.IDSearchButton.Name = "IDSearchButton";
-            this.IDSearchButton.Size = new System.Drawing.Size(160, 35);
-            this.IDSearchButton.TabIndex = 4;
-            this.IDSearchButton.Text = "Search ID";
-            this.IDSearchButton.UseVisualStyleBackColor = false;
-            this.IDSearchButton.Click += new System.EventHandler(this.IDSearchButton_Click);
+            this.SearchPreviousButton.BackColor = System.Drawing.SystemColors.HotTrack;
+            this.SearchPreviousButton.ForeColor = System.Drawing.SystemColors.Window;
+            this.SearchPreviousButton.Location = new System.Drawing.Point(352, 135);
+            this.SearchPreviousButton.Name = "SearchPreviousButton";
+            this.SearchPreviousButton.Size = new System.Drawing.Size(160, 35);
+            this.SearchPreviousButton.TabIndex = 4;
+            this.SearchPreviousButton.Text = "Search";
+            this.SearchPreviousButton.UseVisualStyleBackColor = false;
+            this.SearchPreviousButton.Click += new System.EventHandler(this.SearchPrevButton_Click);
             // 
-            // DateSearchTextBox
+            // SearchPrevTextBox
             // 
-            this.DateSearchTextBox.Location = new System.Drawing.Point(160, 114);
-            this.DateSearchTextBox.Name = "DateSearchTextBox";
-            this.DateSearchTextBox.Size = new System.Drawing.Size(175, 34);
-            this.DateSearchTextBox.TabIndex = 3;
-            this.DateSearchTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // IDSearchTextBox
-            // 
-            this.IDSearchTextBox.Location = new System.Drawing.Point(160, 53);
-            this.IDSearchTextBox.Name = "IDSearchTextBox";
-            this.IDSearchTextBox.Size = new System.Drawing.Size(175, 34);
-            this.IDSearchTextBox.TabIndex = 2;
-            this.IDSearchTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
-            // SearchDateLabel
-            // 
-            this.SearchDateLabel.AutoSize = true;
-            this.SearchDateLabel.Location = new System.Drawing.Point(20, 114);
-            this.SearchDateLabel.Name = "SearchDateLabel";
-            this.SearchDateLabel.Size = new System.Drawing.Size(131, 28);
-            this.SearchDateLabel.TabIndex = 1;
-            this.SearchDateLabel.Text = "Search Date:";
+            this.SearchPrevTextBox.Location = new System.Drawing.Point(152, 135);
+            this.SearchPrevTextBox.Name = "SearchPrevTextBox";
+            this.SearchPrevTextBox.Size = new System.Drawing.Size(175, 34);
+            this.SearchPrevTextBox.TabIndex = 2;
+            this.SearchPrevTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // SearchFormIDLabel
             // 
             this.SearchFormIDLabel.AutoSize = true;
-            this.SearchFormIDLabel.Location = new System.Drawing.Point(20, 56);
+            this.SearchFormIDLabel.Location = new System.Drawing.Point(20, 135);
             this.SearchFormIDLabel.Name = "SearchFormIDLabel";
-            this.SearchFormIDLabel.Size = new System.Drawing.Size(107, 28);
+            this.SearchFormIDLabel.Size = new System.Drawing.Size(80, 28);
             this.SearchFormIDLabel.TabIndex = 0;
-            this.SearchFormIDLabel.Text = "Search ID:";
+            this.SearchFormIDLabel.Text = "Search:";
             // 
             // ButtonPanel
             // 
             this.ButtonPanel.BackColor = System.Drawing.SystemColors.Window;
+            this.ButtonPanel.Controls.Add(this.SummaryButton);
             this.ButtonPanel.Controls.Add(this.AddOrderButton);
             this.ButtonPanel.Controls.Add(this.CompleteOrderButton);
             this.ButtonPanel.Controls.Add(this.SearchMainForm);
@@ -496,6 +477,18 @@
             this.ButtonPanel.Name = "ButtonPanel";
             this.ButtonPanel.Size = new System.Drawing.Size(252, 456);
             this.ButtonPanel.TabIndex = 13;
+            // 
+            // SummaryButton
+            // 
+            this.SummaryButton.BackColor = System.Drawing.SystemColors.HotTrack;
+            this.SummaryButton.ForeColor = System.Drawing.SystemColors.Window;
+            this.SummaryButton.Location = new System.Drawing.Point(32, 240);
+            this.SummaryButton.Name = "SummaryButton";
+            this.SummaryButton.Size = new System.Drawing.Size(194, 34);
+            this.SummaryButton.TabIndex = 11;
+            this.SummaryButton.Text = "Summary";
+            this.SummaryButton.UseVisualStyleBackColor = false;
+            this.SummaryButton.Click += new System.EventHandler(this.SummaryButton_Click);
             // 
             // MainBagelForm
             // 
@@ -515,7 +508,8 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainBagelForm";
             this.Text = "MyBagelShop LTD.";
-            this.Load += new System.EventHandler(this.MainBagelForm_Load);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_Closing);
+            this.Load += new System.EventHandler(this.Form1_Load);
             this.BagelTypeGroupBox.ResumeLayout(false);
             this.BagelTypeGroupBox.PerformLayout();
             this.SearchResultGroupBox.ResumeLayout(false);
@@ -565,13 +559,12 @@
         private GroupBox SearchResultGroupBox;
         private ListBox SearchFormListBox;
         private GroupBox SearchFormGroupBox;
-        private Label SearchOnlyOneLabel;
-        private Button IDSearchButton;
-        private TextBox DateSearchTextBox;
-        private TextBox IDSearchTextBox;
-        private Label SearchDateLabel;
+        private Button SearchPreviousButton;
+        private TextBox SearchPrevTextBox;
         private Label SearchFormIDLabel;
         private Panel ButtonPanel;
-        private Button SearchDateButton;
+        private RadioButton DateRadioButton;
+        private RadioButton IDRadioButton;
+        private Button SummaryButton;
     }
 }

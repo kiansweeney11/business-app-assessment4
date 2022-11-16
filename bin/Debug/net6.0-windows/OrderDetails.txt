@@ -1,6 +1,6 @@
-66849
-2022-11-14 12:16
-10.20
-Toasted	Medium	£5.40
-Plain	Regular	£4.80
-
+48456
+2022-11-16
+16.80
+Toasted	Medium	4	10.80
+Plain	Small	3	6.00
+------
