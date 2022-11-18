@@ -22,6 +22,7 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 using System.Xml.Serialization;
 using System.Transactions;
+using System.Text;
 
 namespace MyBagelShop
 {
@@ -72,7 +73,7 @@ namespace MyBagelShop
         // list to store what type of bagel being sold
         List<string[]> SalesData = new List<string[]>();
  
-        List<int[]> AllTransactions { get; set; } = new List<int[]>();
+        List<String> AllTransactions { get; set; } = new List<String>();
 
         int QuantityOrderedCount;
 
@@ -109,15 +110,28 @@ namespace MyBagelShop
                 OrderDetailsReceipt += (BagelTypes[Basket[i][0]].ToString()) + "\t" + (BagelSize[Basket[i][1]].ToString()) + "\t" + Basket[i][2] + "\t" + BasketRowValues[i].ToString("0.00") + System.Environment.NewLine;
             }
 
-            // update stock in array also
-
             StreamWriter InputFile = System.IO.File.AppendText(ORDERDETAILS);
             InputFile.WriteLine(TransactionID);
             InputFile.WriteLine(DateReceipt);
             InputFile.WriteLine(TotalCostOrder);
             InputFile.WriteLine(OrderDetailsReceipt + "------");
             InputFile.Close();
-            //Debug.WriteLine(OrderDetailsReceipt);
+
+            // update stock for next order once completed
+            if (System.IO.File.Exists(CLOSINGFILE))
+            {
+
+            }
+            else
+            {
+                for(int i = 0; i < Basket.Count; i++)
+                {
+                    int TypeIndex = Basket[i][0];
+                    int SizeIndex = Basket[i][1];
+                    StockAvailable[TypeIndex, SizeIndex] -= Basket[i][2];
+                }
+            }
+
 
             string[] CompletedOrderDetails = {TransactionID.ToString(), DateReceipt, TotalCostOrder.ToString(), OrderDetailsReceipt};
             //Debug.WriteLine(CompletedOrderDetails[3]);
@@ -156,7 +170,7 @@ namespace MyBagelShop
         {
             int FileLines = CalculateFileLines();
             Random Rand = new Random();
-            int rand = Rand.Next(0, 99999);
+            int rand = Rand.Next(1000, 99999);
             if (FileLines >= 1)
             {
                 StreamReader OutputFile = System.IO.File.OpenText(ORDERDETAILS);
@@ -282,7 +296,7 @@ namespace MyBagelShop
             // these conditions are met
             if (IDRadioButton.Checked)
             {
-                if (TextBoxString.Length == 5)
+                if (TextBoxString.Length <= 5 && TextBoxString.Length > 1)
                 {
                     StreamReader OutputFile = System.IO.File.OpenText(ORDERDETAILS);
                     string LineRead = OutputFile.ReadLine();
@@ -311,7 +325,6 @@ namespace MyBagelShop
                                 }
                             }
                             break;
-
                         }
                         else
                         {
@@ -453,31 +466,25 @@ namespace MyBagelShop
 
         private void Form1_Closing(object sender, FormClosingEventArgs e)
         {
-            //
-            //if (!System.IO.File.Exists(CLOSINGFILE))
-            //{
-            //    System.IO.File.CreateText(CLOSINGFILE).Dispose();
-            //}
-
             try
             {
+                StreamWriter OutputFile = System.IO.File.AppendText(CLOSINGFILE);
                 //open file as text file and append client details to end of text file
-                using (StreamWriter stream = new StreamWriter(CLOSINGFILE))
                 {
                     for (int i = 0; i < BagelTypes.Length; i++)
                     {
                         for (int j = 0; j < BagelSize.Length; j++)
                         {
-                            stream.WriteLine(BagelTypes[i] + ", " + BagelSize[j] + ":" + StockAvailable[i, j]);
-
+                            OutputFile.WriteLine(BagelTypes[i] + ", " + BagelSize[j] + ":" + StockAvailable[i, j]);
                         }
                     }
+                    OutputFile.Close();
                 }
             }
 
-            catch (Exception e1)
+            catch (Exception eM)
             {
-                MessageBox.Show("File does not exist. Please try again." + e1.Message);
+                MessageBox.Show("File does not exist. Please try again." + eM.Message);
             }
         }
 
@@ -496,6 +503,11 @@ namespace MyBagelShop
             {
                 //this.OptionSelectedPriceTextBox.Text = (BagelSizeCosts[SizeListBox.SelectedIndex]).ToString("C");
             }
+        }
+
+        private void ExitButton_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
 
         private void SizeListBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -578,58 +590,132 @@ BagelSizeCosts[SizeListBox.SelectedIndex]).ToString("C");
         private void SummaryButton_Click(object sender, EventArgs e)
         {
             int TotalLinesFile = CalculateFileLines();
-            int TransactionsToday = 0;
-            int BagelsSoldToday = 0;
-            decimal AvgSaleToday = 0.00m;
-            decimal SalesOverallToday = 0.00m;
-            String DateReceipt = DateTime.Now.ToString("yyyy-MM-dd");
-            // read in order history file
-            // if we match todays date we take this orders detail
-            // otherwise we do not
-            StreamReader OutputFile = System.IO.File.OpenText(ORDERDETAILS);
-            string LineRead = OutputFile.ReadLine();
-            while (LineRead != null)
+            if(TotalLinesFile > 0)
             {
-                if (LineRead == DateReceipt)
+                int TransactionsToday = 0;
+                int BagelsSoldToday = 0;
+                decimal AvgSaleToday = 0.00m;
+                decimal SalesOverallToday = 0.00m;
+                String DateReceipt = DateTime.Now.ToString("yyyy-MM-dd");
+                // read in order history file
+                // if we match todays date we take this orders detail
+                // otherwise we do not
+                StreamReader OutputFile = System.IO.File.OpenText(ORDERDETAILS);
+                string LineRead = OutputFile.ReadLine();
+                while (LineRead != null)
                 {
-                    TransactionsToday += 1;
-                    SalesOverallToday += Convert.ToDecimal(OutputFile.ReadLine());
-                    while (!LineRead.Equals(ENDORDER))
+                    if (LineRead == DateReceipt)
                     {
-                        String[] words = LineRead.Split("\t");
-                        //Debug.WriteLine(words.Length);
-                        if (words.Length > 1)
+                        TransactionsToday += 1;
+                        SalesOverallToday += Convert.ToDecimal(OutputFile.ReadLine());
+                        while (!LineRead.Equals(ENDORDER))
                         {
-                            BagelsSoldToday += int.Parse(words[2]);
-                            LineRead = OutputFile.ReadLine();
-                        }
-                        else
-                        {
-                            //Prev = LineRead;
-                            LineRead = OutputFile.ReadLine();
+                            String[] words = LineRead.Split("\t");
+                            //Debug.WriteLine(words.Length);
+                            if (words.Length > 1)
+                            {
+                                BagelsSoldToday += int.Parse(words[2]);
+                                LineRead = OutputFile.ReadLine();
+                            }
+                            else
+                            {
+                                LineRead = OutputFile.ReadLine();
+                            }
                         }
                     }
-                    //break;
-
+                    else
+                    {
+                        //Prev = LineRead;
+                        LineRead = OutputFile.ReadLine();
+                    }
+                }
+                OutputFile.Close();
+                // call seperate form to display summary values
+                // handle division by 0
+                if (TransactionsToday > 0)
+                {
+                    AvgSaleToday = SalesOverallToday / TransactionsToday;
                 }
                 else
                 {
-                    //Prev = LineRead;
+                    AvgSaleToday = 0.00m;
+                }
+                DailySummaryForm MyDailySummary = new DailySummaryForm();
+                MyDailySummary.DisplayDailySummary(TransactionsToday, AvgSaleToday, SalesOverallToday, BagelsSoldToday);
+                MyDailySummary.ShowDialog();
+                ClearMainButton_Click(sender, e);
+            }
+            else
+            {
+                MessageBox.Show("No Previous Order Details on File.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void SummaryItemButton_Click(object sender, EventArgs e)
+        {
+            String DateReceipt = DateTime.Now.ToString("yyyy-MM-dd hh:mm");
+            String Day = DateTime.Now.ToString("yyyy-MM-dd");
+            String SummaryReportText = "MyBagelShop Manager Sales Report " + DateReceipt;
+            Dictionary<string, Decimal[]> SalesDataset = new Dictionary<string, Decimal[]>();
+            StreamReader OutputFile = System.IO.File.OpenText(ORDERDETAILS);
+            String LineRead = OutputFile.ReadLine();
+            while(LineRead != null)
+            {
+                if (LineRead == Day)
+                {
+                    while (!LineRead.Equals(ENDORDER))
+                    {
+                        String[] words = LineRead.Split("\t");
+                        if (words.Length > 1)
+                        {
+                            String Combo = words[0] + " " + words[1];
+                            Decimal Quant = Convert.ToDecimal(words[2]);
+                            Decimal SalesPrice = Convert.ToDecimal(words[3]);
+                            Decimal[] ItemDetail = {Quant, SalesPrice};
+                            //SalesDataset.Add()
+                            if (SalesDataset.Count < 1)
+                            {
+                                SalesDataset.Add(Combo, ItemDetail);
+                                LineRead = OutputFile.ReadLine();
+                            }
+                            else
+                            {
+                                if (SalesDataset.ContainsKey(Combo))
+                                {
+                                    SalesDataset[Combo][0] += Quant;
+                                    SalesDataset[Combo][1] += SalesPrice;
+                                    LineRead = OutputFile.ReadLine();
+                                }
+                                else
+                                {
+                                    SalesDataset.Add(Combo, ItemDetail);
+                                    LineRead = OutputFile.ReadLine();
+                                }
+                            }
+                        }
+                        else
+                        {
+                            LineRead = OutputFile.ReadLine();
+                        }
+                    }
+                }
+                else
+                {
                     LineRead = OutputFile.ReadLine();
                 }
             }
             OutputFile.Close();
-            // call seperate form to display summary values
-            AvgSaleToday = SalesOverallToday / TransactionsToday;
-            DailySummaryForm MyDailySummary = new DailySummaryForm();
-            MyDailySummary.DisplayDailySummary(TransactionsToday, AvgSaleToday, SalesOverallToday, BagelsSoldToday);
-            MyDailySummary.ShowDialog();
+            String Cross = "";
+            List<String> DailyAmounts = new List<String>();
+            foreach (KeyValuePair<string, Decimal[]> kvp in SalesDataset)
+            {
+                //StockCountListBox.Items.Add(kvp.Key + (kvp.Value[0]).ToString() + (kvp.Value[1]).ToString());
+                DailyAmounts.Add(kvp.Key.ToString() + ": " + kvp.Value[0].ToString() + " Sold, " + "Sales Amount is €" + kvp.Value[1].ToString() + System.Environment.NewLine);
+            }
+            ManagementSummaryForm MyMangementSummaryForm = new ManagementSummaryForm();
+            MyMangementSummaryForm.DisplayManagementSummaryForm(SummaryReportText, DailyAmounts);
+            MyMangementSummaryForm.ShowDialog();
             ClearMainButton_Click(sender, e);
-        }
-
-        private void ExitButton_Click(object sender, EventArgs e)
-        {
-            this.Close();
         }
     }
 }

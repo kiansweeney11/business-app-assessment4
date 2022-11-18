@@ -91,7 +91,7 @@
             // BagelsSoldTextBox
             // 
             this.BagelsSoldTextBox.Enabled = false;
-            this.BagelsSoldTextBox.Location = new System.Drawing.Point(299, 58);
+            this.BagelsSoldTextBox.Location = new System.Drawing.Point(301, 58);
             this.BagelsSoldTextBox.Name = "BagelsSoldTextBox";
             this.BagelsSoldTextBox.Size = new System.Drawing.Size(150, 34);
             this.BagelsSoldTextBox.TabIndex = 4;

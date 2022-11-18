@@ -23,6 +23,7 @@ namespace MyBagelShop
             SalesValueTextBox.Text = OverallSales.ToString("C");
             TransactionsTextBox.Text = Transactions.ToString();
             AverageTransactionTextBox.Text = Average.ToString("C");
+            this.Text = "MyBagelShop LTD. Daily Summary Sales Report";
         }
     }
 }

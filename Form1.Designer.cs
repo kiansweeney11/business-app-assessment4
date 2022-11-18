@@ -64,6 +64,8 @@
             this.SearchPrevTextBox = new System.Windows.Forms.TextBox();
             this.SearchFormIDLabel = new System.Windows.Forms.Label();
             this.ButtonPanel = new System.Windows.Forms.Panel();
+            this.StockReportButton = new System.Windows.Forms.Button();
+            this.SummaryItemButton = new System.Windows.Forms.Button();
             this.SummaryButton = new System.Windows.Forms.Button();
             this.BagelTypeGroupBox.SuspendLayout();
             this.SearchResultGroupBox.SuspendLayout();
@@ -81,9 +83,9 @@
             this.CompleteOrderButton.Enabled = false;
             this.CompleteOrderButton.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
             this.CompleteOrderButton.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.CompleteOrderButton.Location = new System.Drawing.Point(32, 100);
+            this.CompleteOrderButton.Location = new System.Drawing.Point(26, 72);
             this.CompleteOrderButton.Name = "CompleteOrderButton";
-            this.CompleteOrderButton.Size = new System.Drawing.Size(194, 38);
+            this.CompleteOrderButton.Size = new System.Drawing.Size(219, 38);
             this.CompleteOrderButton.TabIndex = 0;
             this.CompleteOrderButton.Text = "Complete Order";
             this.CompleteOrderButton.UseVisualStyleBackColor = false;
@@ -149,9 +151,9 @@
             this.SearchResultGroupBox.BackColor = System.Drawing.SystemColors.Window;
             this.SearchResultGroupBox.Controls.Add(this.SearchFormListBox);
             this.SearchResultGroupBox.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.SearchResultGroupBox.Location = new System.Drawing.Point(19, 580);
+            this.SearchResultGroupBox.Location = new System.Drawing.Point(19, 481);
             this.SearchResultGroupBox.Name = "SearchResultGroupBox";
-            this.SearchResultGroupBox.Size = new System.Drawing.Size(540, 247);
+            this.SearchResultGroupBox.Size = new System.Drawing.Size(540, 256);
             this.SearchResultGroupBox.TabIndex = 12;
             this.SearchResultGroupBox.TabStop = false;
             this.SearchResultGroupBox.Text = "Search Result";
@@ -272,9 +274,9 @@
             // 
             this.ExitButton.BackColor = System.Drawing.SystemColors.HotTrack;
             this.ExitButton.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.ExitButton.Location = new System.Drawing.Point(32, 376);
+            this.ExitButton.Location = new System.Drawing.Point(26, 406);
             this.ExitButton.Name = "ExitButton";
-            this.ExitButton.Size = new System.Drawing.Size(194, 34);
+            this.ExitButton.Size = new System.Drawing.Size(219, 34);
             this.ExitButton.TabIndex = 4;
             this.ExitButton.Text = "Exit";
             this.ExitButton.UseVisualStyleBackColor = false;
@@ -285,9 +287,9 @@
             this.AddOrderButton.BackColor = System.Drawing.SystemColors.HotTrack;
             this.AddOrderButton.Enabled = false;
             this.AddOrderButton.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.AddOrderButton.Location = new System.Drawing.Point(32, 32);
+            this.AddOrderButton.Location = new System.Drawing.Point(26, 17);
             this.AddOrderButton.Name = "AddOrderButton";
-            this.AddOrderButton.Size = new System.Drawing.Size(194, 34);
+            this.AddOrderButton.Size = new System.Drawing.Size(219, 34);
             this.AddOrderButton.TabIndex = 5;
             this.AddOrderButton.Text = "Add to Order";
             this.AddOrderButton.UseVisualStyleBackColor = false;
@@ -297,9 +299,9 @@
             // 
             this.ClearMainButton.BackColor = System.Drawing.SystemColors.HotTrack;
             this.ClearMainButton.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.ClearMainButton.Location = new System.Drawing.Point(32, 308);
+            this.ClearMainButton.Location = new System.Drawing.Point(26, 351);
             this.ClearMainButton.Name = "ClearMainButton";
-            this.ClearMainButton.Size = new System.Drawing.Size(194, 34);
+            this.ClearMainButton.Size = new System.Drawing.Size(219, 34);
             this.ClearMainButton.TabIndex = 6;
             this.ClearMainButton.Text = "Clear";
             this.ClearMainButton.UseVisualStyleBackColor = false;
@@ -378,9 +380,9 @@
             // 
             this.CurrentBasketDetailsListBox.FormattingEnabled = true;
             this.CurrentBasketDetailsListBox.ItemHeight = 28;
-            this.CurrentBasketDetailsListBox.Location = new System.Drawing.Point(328, 481);
+            this.CurrentBasketDetailsListBox.Location = new System.Drawing.Point(568, 481);
             this.CurrentBasketDetailsListBox.Name = "CurrentBasketDetailsListBox";
-            this.CurrentBasketDetailsListBox.Size = new System.Drawing.Size(586, 200);
+            this.CurrentBasketDetailsListBox.Size = new System.Drawing.Size(586, 256);
             this.CurrentBasketDetailsListBox.TabIndex = 9;
             this.CurrentBasketDetailsListBox.Visible = false;
             // 
@@ -388,9 +390,9 @@
             // 
             this.SearchMainForm.BackColor = System.Drawing.SystemColors.HotTrack;
             this.SearchMainForm.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.SearchMainForm.Location = new System.Drawing.Point(32, 172);
+            this.SearchMainForm.Location = new System.Drawing.Point(26, 131);
             this.SearchMainForm.Name = "SearchMainForm";
-            this.SearchMainForm.Size = new System.Drawing.Size(194, 34);
+            this.SearchMainForm.Size = new System.Drawing.Size(219, 34);
             this.SearchMainForm.TabIndex = 10;
             this.SearchMainForm.Text = "Search";
             this.SearchMainForm.UseVisualStyleBackColor = false;
@@ -467,6 +469,8 @@
             // ButtonPanel
             // 
             this.ButtonPanel.BackColor = System.Drawing.SystemColors.Window;
+            this.ButtonPanel.Controls.Add(this.StockReportButton);
+            this.ButtonPanel.Controls.Add(this.SummaryItemButton);
             this.ButtonPanel.Controls.Add(this.SummaryButton);
             this.ButtonPanel.Controls.Add(this.AddOrderButton);
             this.ButtonPanel.Controls.Add(this.CompleteOrderButton);
@@ -475,18 +479,41 @@
             this.ButtonPanel.Controls.Add(this.ExitButton);
             this.ButtonPanel.Location = new System.Drawing.Point(1044, 19);
             this.ButtonPanel.Name = "ButtonPanel";
-            this.ButtonPanel.Size = new System.Drawing.Size(252, 456);
+            this.ButtonPanel.Size = new System.Drawing.Size(269, 456);
             this.ButtonPanel.TabIndex = 13;
+            // 
+            // StockReportButton
+            // 
+            this.StockReportButton.BackColor = System.Drawing.SystemColors.HotTrack;
+            this.StockReportButton.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.StockReportButton.Location = new System.Drawing.Point(26, 296);
+            this.StockReportButton.Name = "StockReportButton";
+            this.StockReportButton.Size = new System.Drawing.Size(219, 34);
+            this.StockReportButton.TabIndex = 13;
+            this.StockReportButton.Text = "Stock Report";
+            this.StockReportButton.UseVisualStyleBackColor = false;
+            // 
+            // SummaryItemButton
+            // 
+            this.SummaryItemButton.BackColor = System.Drawing.SystemColors.HotTrack;
+            this.SummaryItemButton.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.SummaryItemButton.Location = new System.Drawing.Point(26, 241);
+            this.SummaryItemButton.Name = "SummaryItemButton";
+            this.SummaryItemButton.Size = new System.Drawing.Size(219, 34);
+            this.SummaryItemButton.TabIndex = 12;
+            this.SummaryItemButton.Text = "Item Sales Summary";
+            this.SummaryItemButton.UseVisualStyleBackColor = false;
+            this.SummaryItemButton.Click += new System.EventHandler(this.SummaryItemButton_Click);
             // 
             // SummaryButton
             // 
             this.SummaryButton.BackColor = System.Drawing.SystemColors.HotTrack;
-            this.SummaryButton.ForeColor = System.Drawing.SystemColors.Window;
-            this.SummaryButton.Location = new System.Drawing.Point(32, 240);
+            this.SummaryButton.ForeColor = System.Drawing.SystemColors.ControlLightLight;
+            this.SummaryButton.Location = new System.Drawing.Point(26, 186);
             this.SummaryButton.Name = "SummaryButton";
-            this.SummaryButton.Size = new System.Drawing.Size(194, 34);
+            this.SummaryButton.Size = new System.Drawing.Size(219, 34);
             this.SummaryButton.TabIndex = 11;
-            this.SummaryButton.Text = "Summary";
+            this.SummaryButton.Text = "Total Sales Summary";
             this.SummaryButton.UseVisualStyleBackColor = false;
             this.SummaryButton.Click += new System.EventHandler(this.SummaryButton_Click);
             // 
@@ -566,5 +593,7 @@
         private RadioButton DateRadioButton;
         private RadioButton IDRadioButton;
         private Button SummaryButton;
+        private Button StockReportButton;
+        private Button SummaryItemButton;
     }
 }
