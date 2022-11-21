@@ -65,6 +65,7 @@ namespace MyBagelShop
         // file names constants
         const string CLOSINGFILE = "ClosingReport.txt";
         const string ORDERDETAILS = "OrderDetails.txt";
+        const string MANAGERSTOCKREPORT = "ManagerStockReport.txt";
         const string ENDORDER = "------";
 
         // list to store current basket details
@@ -72,8 +73,6 @@ namespace MyBagelShop
 
         // list to store what type of bagel being sold
         List<string[]> SalesData = new List<string[]>();
- 
-        List<String> AllTransactions { get; set; } = new List<String>();
 
         int QuantityOrderedCount;
 
@@ -118,21 +117,19 @@ namespace MyBagelShop
             InputFile.Close();
 
             // update stock for next order once completed
-            if (System.IO.File.Exists(CLOSINGFILE))
+            //if (System.IO.File.Exists(CLOSINGFILE))
+            //{
+            //
+            //}
+            //else
+            //{
+            for (int i = 0; i < Basket.Count; i++)
             {
-
+                int TypeIndex = Basket[i][0];
+                int SizeIndex = Basket[i][1];
+                StockAvailable[TypeIndex, SizeIndex] -= Basket[i][2];
             }
-            else
-            {
-                for(int i = 0; i < Basket.Count; i++)
-                {
-                    int TypeIndex = Basket[i][0];
-                    int SizeIndex = Basket[i][1];
-                    StockAvailable[TypeIndex, SizeIndex] -= Basket[i][2];
-                }
-            }
-
-
+            //}
             string[] CompletedOrderDetails = {TransactionID.ToString(), DateReceipt, TotalCostOrder.ToString(), OrderDetailsReceipt};
             //Debug.WriteLine(CompletedOrderDetails[3]);
             SalesData.Add(CompletedOrderDetails);
@@ -170,6 +167,7 @@ namespace MyBagelShop
         {
             int FileLines = CalculateFileLines();
             Random Rand = new Random();
+            // generate random ID
             int rand = Rand.Next(1000, 99999);
             if (FileLines >= 1)
             {
@@ -296,7 +294,7 @@ namespace MyBagelShop
             // these conditions are met
             if (IDRadioButton.Checked)
             {
-                if (TextBoxString.Length <= 5 && TextBoxString.Length > 1)
+                if (TextBoxString.Length >= 1 && IsDigitsOnly(TextBoxString) == true)
                 {
                     StreamReader OutputFile = System.IO.File.OpenText(ORDERDETAILS);
                     string LineRead = OutputFile.ReadLine();
@@ -355,7 +353,8 @@ namespace MyBagelShop
                 // clear for next search if user wants to check another time
                 SearchFormListBox.Items.Clear();
                 String Prev = "";
-                if (TextBoxString.Length > 5)
+                DateTime DateFormatted;
+                if (DateTime.TryParse(TextBoxString, out DateFormatted))
                 {
                     StreamReader OutputFile = System.IO.File.OpenText(ORDERDETAILS);
                     string LineRead = OutputFile.ReadLine();
@@ -405,7 +404,7 @@ namespace MyBagelShop
                 }
                 else
                 {
-                    MessageBox.Show("Please input a valid date/time.", "Error",
+                    MessageBox.Show("Please input a valid date. Ensure it is in format yyyy-MM-dd.", "Error",
         MessageBoxButtons.OK, MessageBoxIcon.Error);
                     this.SearchPrevTextBox.Focus();
                     // if already visible from an initial check - hide
@@ -418,6 +417,20 @@ namespace MyBagelShop
         MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
+        }
+
+        private bool IsDigitsOnly(string str)
+        {
+            for (int i = 1; i < str.Length; i++)
+            {
+                char c = str[i];
+                if (c < '0' || c > '9')
+                {
+                    return false;
+                    break;
+                }
+            }
+            return true;
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -447,7 +460,7 @@ namespace MyBagelShop
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Can't read last transaction file from yesterday:" + ex.Message);
+                    MessageBox.Show("Can't read last transaction file from yesterday: " + ex.Message);
                 }
             }
 
@@ -484,7 +497,7 @@ namespace MyBagelShop
 
             catch (Exception eM)
             {
-                MessageBox.Show("File does not exist. Please try again." + eM.Message);
+                MessageBox.Show("Closing File Error. " + eM.Message);
             }
         }
 
@@ -651,6 +664,35 @@ BagelSizeCosts[SizeListBox.SelectedIndex]).ToString("C");
             }
         }
 
+        private void StockReportButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                String TimeReport = DateTime.Now.ToString("yyyy-MM-dd hh:mm");
+                StreamWriter InputFile = System.IO.File.AppendText(MANAGERSTOCKREPORT);
+                InputFile.WriteLine("MyBagelShop LTD." + System.Environment.NewLine);
+                InputFile.WriteLine("Manager Stock Report Generated on " + TimeReport + System.Environment.NewLine);
+                String Title1 = "Item/Size";
+                String Title2 = "Stock Remaining";
+                InputFile.WriteLine(Title1.PadRight(35) + Title2);
+                for (int i = 0; i < BagelTypes.Length; i++)
+                {
+                    for (int j = 0; j < BagelSize.Length; j++)
+                    {
+                        String TypeSize = BagelTypes[i] + ", " + BagelSize[j];
+                        InputFile.WriteLine(TypeSize.PadRight(35) + StockAvailable[i, j].ToString());
+                    }
+                }
+                InputFile.Close();
+                MessageBox.Show("Stock Report File Generated Successfully.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            }
+            catch
+            {
+                MessageBox.Show("Error generating stock report.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
         private void SummaryItemButton_Click(object sender, EventArgs e)
         {
             String DateReceipt = DateTime.Now.ToString("yyyy-MM-dd hh:mm");
@@ -705,7 +747,6 @@ BagelSizeCosts[SizeListBox.SelectedIndex]).ToString("C");
                 }
             }
             OutputFile.Close();
-            String Cross = "";
             List<String> DailyAmounts = new List<String>();
             foreach (KeyValuePair<string, Decimal[]> kvp in SalesDataset)
             {

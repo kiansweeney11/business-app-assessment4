@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainBagelForm));
             this.CompleteOrderButton = new System.Windows.Forms.Button();
             this.BagelTypeGroupBox = new System.Windows.Forms.GroupBox();
@@ -67,6 +68,15 @@
             this.StockReportButton = new System.Windows.Forms.Button();
             this.SummaryItemButton = new System.Windows.Forms.Button();
             this.SummaryButton = new System.Windows.Forms.Button();
+            this.AddOrderToolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.CompleteToolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.SearchToolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.SalesSummaryToolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.ItemSalesSummary = new System.Windows.Forms.ToolTip(this.components);
+            this.StockReportToolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.ClearToolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.ExitToolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.SearchPrevToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.BagelTypeGroupBox.SuspendLayout();
             this.SearchResultGroupBox.SuspendLayout();
             this.SizeGroupBox.SuspendLayout();
@@ -87,7 +97,8 @@
             this.CompleteOrderButton.Name = "CompleteOrderButton";
             this.CompleteOrderButton.Size = new System.Drawing.Size(219, 38);
             this.CompleteOrderButton.TabIndex = 0;
-            this.CompleteOrderButton.Text = "Complete Order";
+            this.CompleteOrderButton.Text = "&Complete Order";
+            this.CompleteToolTip.SetToolTip(this.CompleteOrderButton, "Complete order with items\r\ncurrently in basket.");
             this.CompleteOrderButton.UseVisualStyleBackColor = false;
             this.CompleteOrderButton.Click += new System.EventHandler(this.CompleteOrderButton_Click);
             // 
@@ -151,7 +162,7 @@
             this.SearchResultGroupBox.BackColor = System.Drawing.SystemColors.Window;
             this.SearchResultGroupBox.Controls.Add(this.SearchFormListBox);
             this.SearchResultGroupBox.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.SearchResultGroupBox.Location = new System.Drawing.Point(19, 481);
+            this.SearchResultGroupBox.Location = new System.Drawing.Point(181, 481);
             this.SearchResultGroupBox.Name = "SearchResultGroupBox";
             this.SearchResultGroupBox.Size = new System.Drawing.Size(540, 256);
             this.SearchResultGroupBox.TabIndex = 12;
@@ -278,7 +289,8 @@
             this.ExitButton.Name = "ExitButton";
             this.ExitButton.Size = new System.Drawing.Size(219, 34);
             this.ExitButton.TabIndex = 4;
-            this.ExitButton.Text = "Exit";
+            this.ExitButton.Text = "&Exit";
+            this.ExitToolTip.SetToolTip(this.ExitButton, "Press to close application.");
             this.ExitButton.UseVisualStyleBackColor = false;
             this.ExitButton.Click += new System.EventHandler(this.ExitButton_Click);
             // 
@@ -291,7 +303,8 @@
             this.AddOrderButton.Name = "AddOrderButton";
             this.AddOrderButton.Size = new System.Drawing.Size(219, 34);
             this.AddOrderButton.TabIndex = 5;
-            this.AddOrderButton.Text = "Add to Order";
+            this.AddOrderButton.Text = "&Add to Order";
+            this.AddOrderToolTip.SetToolTip(this.AddOrderButton, "Add selected items to basket\r\nand continue shopping.\r\n");
             this.AddOrderButton.UseVisualStyleBackColor = false;
             this.AddOrderButton.Click += new System.EventHandler(this.AddOrderButton_Click);
             // 
@@ -303,7 +316,8 @@
             this.ClearMainButton.Name = "ClearMainButton";
             this.ClearMainButton.Size = new System.Drawing.Size(219, 34);
             this.ClearMainButton.TabIndex = 6;
-            this.ClearMainButton.Text = "Clear";
+            this.ClearMainButton.Text = "C&lear";
+            this.ClearToolTip.SetToolTip(this.ClearMainButton, "Clear / reset form for next order.");
             this.ClearMainButton.UseVisualStyleBackColor = false;
             this.ClearMainButton.Click += new System.EventHandler(this.ClearMainButton_Click);
             // 
@@ -380,7 +394,7 @@
             // 
             this.CurrentBasketDetailsListBox.FormattingEnabled = true;
             this.CurrentBasketDetailsListBox.ItemHeight = 28;
-            this.CurrentBasketDetailsListBox.Location = new System.Drawing.Point(568, 481);
+            this.CurrentBasketDetailsListBox.Location = new System.Drawing.Point(727, 481);
             this.CurrentBasketDetailsListBox.Name = "CurrentBasketDetailsListBox";
             this.CurrentBasketDetailsListBox.Size = new System.Drawing.Size(586, 256);
             this.CurrentBasketDetailsListBox.TabIndex = 9;
@@ -394,7 +408,8 @@
             this.SearchMainForm.Name = "SearchMainForm";
             this.SearchMainForm.Size = new System.Drawing.Size(219, 34);
             this.SearchMainForm.TabIndex = 10;
-            this.SearchMainForm.Text = "Search";
+            this.SearchMainForm.Text = "&Search";
+            this.SearchToolTip.SetToolTip(this.SearchMainForm, "Search previous transaction details\r\nby ID or Date/Time.");
             this.SearchMainForm.UseVisualStyleBackColor = false;
             this.SearchMainForm.Click += new System.EventHandler(this.SearchMainForm_Click);
             // 
@@ -445,7 +460,8 @@
             this.SearchPreviousButton.Name = "SearchPreviousButton";
             this.SearchPreviousButton.Size = new System.Drawing.Size(160, 35);
             this.SearchPreviousButton.TabIndex = 4;
-            this.SearchPreviousButton.Text = "Search";
+            this.SearchPreviousButton.Text = "&Search";
+            this.SearchPrevToolTip.SetToolTip(this.SearchPreviousButton, "Search to display previous transaction \r\nby inputted ID / date.");
             this.SearchPreviousButton.UseVisualStyleBackColor = false;
             this.SearchPreviousButton.Click += new System.EventHandler(this.SearchPrevButton_Click);
             // 
@@ -490,8 +506,10 @@
             this.StockReportButton.Name = "StockReportButton";
             this.StockReportButton.Size = new System.Drawing.Size(219, 34);
             this.StockReportButton.TabIndex = 13;
-            this.StockReportButton.Text = "Stock Report";
+            this.StockReportButton.Text = "Stock &Report";
+            this.StockReportToolTip.SetToolTip(this.StockReportButton, "Generate a stock report for the manager\r\nshowing available stock of each item.");
             this.StockReportButton.UseVisualStyleBackColor = false;
+            this.StockReportButton.Click += new System.EventHandler(this.StockReportButton_Click);
             // 
             // SummaryItemButton
             // 
@@ -501,7 +519,8 @@
             this.SummaryItemButton.Name = "SummaryItemButton";
             this.SummaryItemButton.Size = new System.Drawing.Size(219, 34);
             this.SummaryItemButton.TabIndex = 12;
-            this.SummaryItemButton.Text = "Item Sales Summary";
+            this.SummaryItemButton.Text = "&Item Sales Summary";
+            this.ItemSalesSummary.SetToolTip(this.SummaryItemButton, "Generate report displaying sales of each\r\nitem/size sold today.");
             this.SummaryItemButton.UseVisualStyleBackColor = false;
             this.SummaryItemButton.Click += new System.EventHandler(this.SummaryItemButton_Click);
             // 
@@ -513,9 +532,55 @@
             this.SummaryButton.Name = "SummaryButton";
             this.SummaryButton.Size = new System.Drawing.Size(219, 34);
             this.SummaryButton.TabIndex = 11;
-            this.SummaryButton.Text = "Total Sales Summary";
+            this.SummaryButton.Text = "&Total Sales Summary";
+            this.SalesSummaryToolTip.SetToolTip(this.SummaryButton, "Generate summary details of all\r\nsales made today.");
             this.SummaryButton.UseVisualStyleBackColor = false;
             this.SummaryButton.Click += new System.EventHandler(this.SummaryButton_Click);
+            // 
+            // AddOrderToolTip
+            // 
+            this.AddOrderToolTip.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            this.AddOrderToolTip.ToolTipTitle = "Info";
+            // 
+            // CompleteToolTip
+            // 
+            this.CompleteToolTip.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            this.CompleteToolTip.ToolTipTitle = "Info";
+            // 
+            // SearchToolTip
+            // 
+            this.SearchToolTip.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            this.SearchToolTip.ToolTipTitle = "Info";
+            // 
+            // SalesSummaryToolTip
+            // 
+            this.SalesSummaryToolTip.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            this.SalesSummaryToolTip.ToolTipTitle = "Info";
+            // 
+            // ItemSalesSummary
+            // 
+            this.ItemSalesSummary.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            this.ItemSalesSummary.ToolTipTitle = "Info";
+            // 
+            // StockReportToolTip
+            // 
+            this.StockReportToolTip.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            this.StockReportToolTip.ToolTipTitle = "Info";
+            // 
+            // ClearToolTip
+            // 
+            this.ClearToolTip.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            this.ClearToolTip.ToolTipTitle = "Info";
+            // 
+            // ExitToolTip
+            // 
+            this.ExitToolTip.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            this.ExitToolTip.ToolTipTitle = "Info";
+            // 
+            // SearchPrevToolTip
+            // 
+            this.SearchPrevToolTip.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
+            this.SearchPrevToolTip.ToolTipTitle = "Info";
             // 
             // MainBagelForm
             // 
@@ -595,5 +660,14 @@
         private Button SummaryButton;
         private Button StockReportButton;
         private Button SummaryItemButton;
+        private ToolTip AddOrderToolTip;
+        private ToolTip CompleteToolTip;
+        private ToolTip SearchToolTip;
+        private ToolTip SalesSummaryToolTip;
+        private ToolTip ItemSalesSummary;
+        private ToolTip StockReportToolTip;
+        private ToolTip ClearToolTip;
+        private ToolTip ExitToolTip;
+        private ToolTip SearchPrevToolTip;
     }
 }

@@ -1,11 +1,16 @@
-24741
+7131
 2022-11-18
-16.00
-Plain	Small	4	8.00
-Plain	Small	4	8.00
+11.00
+Whole Wheat	Small	3	6.60
+Whole Wheat	Small	2	4.40
 ------
-2227
+9877
 2022-11-18
 4.00
 Plain	Small	2	4.00
+------
+37752
+2022-11-18
+16.00
+Plain	Small	8	16.00
 ------
