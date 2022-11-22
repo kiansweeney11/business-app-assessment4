@@ -47,19 +47,20 @@
             // 
             // StockCountListBox
             // 
+            this.StockCountListBox.Enabled = false;
             this.StockCountListBox.FormattingEnabled = true;
             this.StockCountListBox.ItemHeight = 28;
-            this.StockCountListBox.Location = new System.Drawing.Point(171, 206);
+            this.StockCountListBox.Location = new System.Drawing.Point(147, 206);
             this.StockCountListBox.Name = "StockCountListBox";
-            this.StockCountListBox.Size = new System.Drawing.Size(597, 172);
+            this.StockCountListBox.Size = new System.Drawing.Size(654, 172);
             this.StockCountListBox.TabIndex = 1;
             // 
             // DateSumTextBox
             // 
             this.DateSumTextBox.Enabled = false;
-            this.DateSumTextBox.Location = new System.Drawing.Point(171, 153);
+            this.DateSumTextBox.Location = new System.Drawing.Point(147, 153);
             this.DateSumTextBox.Name = "DateSumTextBox";
-            this.DateSumTextBox.Size = new System.Drawing.Size(597, 34);
+            this.DateSumTextBox.Size = new System.Drawing.Size(654, 34);
             this.DateSumTextBox.TabIndex = 2;
             this.DateSumTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 

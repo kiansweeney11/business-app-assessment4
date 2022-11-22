@@ -162,9 +162,9 @@
             this.SearchResultGroupBox.BackColor = System.Drawing.SystemColors.Window;
             this.SearchResultGroupBox.Controls.Add(this.SearchFormListBox);
             this.SearchResultGroupBox.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-            this.SearchResultGroupBox.Location = new System.Drawing.Point(181, 481);
+            this.SearchResultGroupBox.Location = new System.Drawing.Point(12, 481);
             this.SearchResultGroupBox.Name = "SearchResultGroupBox";
-            this.SearchResultGroupBox.Size = new System.Drawing.Size(540, 256);
+            this.SearchResultGroupBox.Size = new System.Drawing.Size(694, 256);
             this.SearchResultGroupBox.TabIndex = 12;
             this.SearchResultGroupBox.TabStop = false;
             this.SearchResultGroupBox.Text = "Search Result";
@@ -176,7 +176,7 @@
             this.SearchFormListBox.ItemHeight = 28;
             this.SearchFormListBox.Location = new System.Drawing.Point(20, 54);
             this.SearchFormListBox.Name = "SearchFormListBox";
-            this.SearchFormListBox.Size = new System.Drawing.Size(484, 172);
+            this.SearchFormListBox.Size = new System.Drawing.Size(657, 172);
             this.SearchFormListBox.TabIndex = 0;
             // 
             // SizeGroupBox

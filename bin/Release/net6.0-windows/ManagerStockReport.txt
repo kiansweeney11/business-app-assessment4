@@ -1,6 +1,6 @@
 MyBagelShop LTD.
 
-Manager Stock Report Generated on 2022-11-21 12:20
+Manager Stock Report Generated on 2022-11-22 01:00
 
 Item/Size                          Stock Remaining
 Plain, Small                       0
@@ -8,18 +8,18 @@ Plain, Medium                      20
 Plain, Regular                     25
 Plain, Large                       29
 Plain, Extra-Large                 30
-Whole Wheat, Small                 9
+Whole Wheat, Small                 14
 Whole Wheat, Medium                17
 Whole Wheat, Regular               6
 Whole Wheat, Large                 23
 Whole Wheat, Extra-Large           5
-Garlic, Small                      25
+Garlic, Small                      14
 Garlic, Medium                     10
 Garlic, Regular                    23
 Garlic, Large                      12
 Garlic, Extra-Large                11
 Toasted, Small                     17
-Toasted, Medium                    16
+Toasted, Medium                    13
 Toasted, Regular                   15
 Toasted, Large                     33
 Toasted, Extra-Large               30

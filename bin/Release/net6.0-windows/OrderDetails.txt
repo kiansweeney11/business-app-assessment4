@@ -1,16 +1,16 @@
-7131
-2022-11-18
-11.00
-Whole Wheat	Small	3	6.60
-Whole Wheat	Small	2	4.40
+85291
+2022-11-22
+20.00
+Plain	Small	9	18.00
+Plain	Small	1	2.00
 ------
-9877
-2022-11-18
-4.00
-Plain	Small	2	4.00
+82630
+2022-11-22
+26.40
+Garlic	Small	11	26.40
 ------
-37752
-2022-11-18
-16.00
-Plain	Small	8	16.00
+32098
+2022-11-22
+8.10
+Toasted	Medium	3	8.10
 ------

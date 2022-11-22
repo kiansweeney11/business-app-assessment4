@@ -28,7 +28,7 @@ namespace MyBagelShop
 {
     public partial class MainBagelForm : Form
     {
-        //Array for the workshops
+        // this contains the 13 different types of bagels for sale
         public static string[] BagelTypes { get; set; } = { "Plain", "Whole Wheat", "Garlic",
                                                             "Toasted", "Onion", "French Toast", "Multigrain",
                                                            "Cinnamon Raisin", "Blueberry", "Chocolate Chip", 
@@ -37,10 +37,10 @@ namespace MyBagelShop
         // array for type of bagel costs
         public static decimal[] BagelTypeCosts { get; set; } = {2m, 2.2m, 2.4m, 2.5m, 2.65m, 2.75m, 2.8m, 2.9m, 2.8m,
                                                                 3m, 2.75m, 2.6m, 3.1m};
-        // array with 5 different sizes of bagels
+        // this array contains the 5 different sizes of bagels
         public static string[] BagelSize { get; set; } = {"Small", "Medium", "Regular", "Large", "Extra-Large" };
 
-        //Array for live count of stock
+        // openingstock is the array with our initial values for the day
         const int ROW_SIZE = 13, COLUMN_SIZE = 5;
         public static int[,] OpeningStock = new int[ROW_SIZE, COLUMN_SIZE];
 
@@ -66,6 +66,7 @@ namespace MyBagelShop
         const string CLOSINGFILE = "ClosingReport.txt";
         const string ORDERDETAILS = "OrderDetails.txt";
         const string MANAGERSTOCKREPORT = "ManagerStockReport.txt";
+        // denotes new order when searching
         const string ENDORDER = "------";
 
         // list to store current basket details
@@ -101,42 +102,36 @@ namespace MyBagelShop
                 decimal TotalCostRow = (BagelTypeCosts[Basket[i][0]] + BagelSizeCosts[Basket[i][1]]) * Basket[i][2];
                 BasketRowValues.Add(TotalCostRow);
             }
-
             DateReceipt = DateTime.Now.ToString("yyyy-MM-dd");
             TransactionID = TransactionIDGenerator();
+            // create string with newlines of all ordered items
             for(int i = 0; i < BasketRowValues.Count; i++)
             {
                 OrderDetailsReceipt += (BagelTypes[Basket[i][0]].ToString()) + "\t" + (BagelSize[Basket[i][1]].ToString()) + "\t" + Basket[i][2] + "\t" + BasketRowValues[i].ToString("0.00") + System.Environment.NewLine;
             }
-
+            // append order details to file
             StreamWriter InputFile = System.IO.File.AppendText(ORDERDETAILS);
             InputFile.WriteLine(TransactionID);
             InputFile.WriteLine(DateReceipt);
             InputFile.WriteLine(TotalCostOrder);
+            // add delimiter to end of order "------"
             InputFile.WriteLine(OrderDetailsReceipt + "------");
             InputFile.Close();
 
             // update stock for next order once completed
-            //if (System.IO.File.Exists(CLOSINGFILE))
-            //{
-            //
-            //}
-            //else
-            //{
             for (int i = 0; i < Basket.Count; i++)
             {
                 int TypeIndex = Basket[i][0];
                 int SizeIndex = Basket[i][1];
                 StockAvailable[TypeIndex, SizeIndex] -= Basket[i][2];
             }
-            //}
+            // string list containing all order details
             string[] CompletedOrderDetails = {TransactionID.ToString(), DateReceipt, TotalCostOrder.ToString(), OrderDetailsReceipt};
-            //Debug.WriteLine(CompletedOrderDetails[3]);
             SalesData.Add(CompletedOrderDetails);
+            // company receipt on sep form
             MyCompanyReceipt.DisplayCompanyReceipt(TransactionID, DateReceipt, TotalCostOrder, OrderDetailsReceipt);
             MyCompanyReceipt.ShowDialog();
             ClearMainButton_Click(sender, e);
-            //Debug.WriteLine(OrderDetailsReceipt);
         }
 
         private int CalculateFileLines()
@@ -238,29 +233,34 @@ namespace MyBagelShop
                         }
                     }
 
+                    // if desired amount not available focus throw a message box informing user
                     if (QuantityOrderedCount > StockCurrentAvailable)
                     {
                         MessageBox.Show("Selected number of Bagel Size/Type out of stock\n" + "Current inputted total: " + QuantityOrderedCount.ToString() + "\n"
                             + "Current stock available: " + StockCurrentAvailable.ToString(),
                             "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        // changes quantity textbox to max quantity of selected item available
                         this.QuantityTextBox.Text = StockCurrentAvailable.ToString();
                         this.QuantityTextBox.Focus();
                     }
                     else
                     {
                         string Quant = QuantityOrderedCount.ToString();
-                        string Details = BagelTypes[BagelTypeSelectedIndex].PadRight(20 - BagelTypes[BagelTypeSelectedIndex].Length) + "\t" 
-                            +  BagelSize[BagelSizeSelectedIndex].PadRight(15 - BagelSize[BagelSizeSelectedIndex].Length) + "\t" +
-                                          Quant.PadRight(40 - (BagelSize[BagelSizeSelectedIndex].Length + BagelTypes[BagelTypeSelectedIndex].Length)) +  "\n";
+                        string Details = BagelTypes[BagelTypeSelectedIndex].PadRight(20) + "\t" 
+                            +  BagelSize[BagelSizeSelectedIndex].PadRight(35) + "\t" +
+                                          Quant.PadRight(40) +  "\n";
+                        // add order items to listbox showing whats current order contains
                         CurrentBasketDetailsListBox.Items.Add(Details);
                         int[] ItemDetails = {BagelTypeSelectedIndex, BagelSizeSelectedIndex, QuantityOrderedCount};
                         Basket.Add(ItemDetails);
 
+                        // enable button to complete order if user wishes so
                         CompleteOrderButton.Enabled = true;
                         CompleteOrderButton.Focus();
 
                         UpdateBasketTotals();
                         this.QuantityTextBox.Clear();
+                        // display listbox to show what current customer has ordered so far
                         this.CurrentBasketDetailsListBox.Visible = true;
                         this.CurrentBasketTotalGroupBox.Visible = true;
                     }
@@ -311,7 +311,6 @@ namespace MyBagelShop
                             while (LineRead.Equals(TextBoxString))
                             {
                                 String[] words = Details.Split("\t");
-                                //Debug.WriteLine(words.Length);
                                 if (words.Length > 1)
                                 {
                                     SearchFormListBox.Items.Add("Order Details included: " + Details);
@@ -322,6 +321,7 @@ namespace MyBagelShop
                                     LineRead = Details;
                                 }
                             }
+                            // break as unique ID's can only be matched once
                             break;
                         }
                         else
@@ -371,10 +371,9 @@ namespace MyBagelShop
                             while (LineRead.Equals(TextBoxString))
                             {
                                 String[] words = Details.Split("\t");
-                                //Debug.WriteLine(words.Length);
                                 if (words.Length > 1)
                                 {
-                                    SearchFormListBox.Items.Add("Order Details were: " + Details);
+                                    SearchFormListBox.Items.Add("Order Details include the following: " + Details);
                                     Details = OutputFile.ReadLine();
                                 }
                                 else
@@ -383,8 +382,6 @@ namespace MyBagelShop
                                     LineRead = Details;
                                 }
                             }
-                            //break;
-
                         }
                         else
                         {
@@ -415,10 +412,12 @@ namespace MyBagelShop
             {
                 MessageBox.Show("Please select one of the ID/Date buttons.", "Error",
         MessageBoxButtons.OK, MessageBoxIcon.Error);
+                SearchFormListBox.Visible = false;
             }
 
         }
 
+        // helper function to check id's contain only numeric characters
         private bool IsDigitsOnly(string str)
         {
             for (int i = 1; i < str.Length; i++)
@@ -435,6 +434,8 @@ namespace MyBagelShop
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            // this function concerns our stockavailable arrays
+            // if the previous days closing file exists use this to populate array stock
             if (System.IO.File.Exists(CLOSINGFILE))
             {
                 try
@@ -460,11 +461,12 @@ namespace MyBagelShop
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show("Can't read last transaction file from yesterday: " + ex.Message);
+                    // if there is any error accessing the file
+                    MessageBox.Show("Can't read last transaction file from yesterday: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
 
-            //in case where there is no Closing Stock, the array StockAvailable is taken as Opening Stock
+            //in case where there is no Closing Stock file, the array StockAvailable is taken as Opening Stock
             else
             {
                 for (int i = 0; i < BagelTypes.Length; i++)
@@ -479,6 +481,8 @@ namespace MyBagelShop
 
         private void Form1_Closing(object sender, FormClosingEventArgs e)
         {
+            // this function creates a closing textfile of the stock of each item left
+            // we will use this as opening stock for the next day of transactions then
             try
             {
                 StreamWriter OutputFile = System.IO.File.AppendText(CLOSINGFILE);
@@ -497,7 +501,8 @@ namespace MyBagelShop
 
             catch (Exception eM)
             {
-                MessageBox.Show("Closing File Error. " + eM.Message);
+                // catch error if there is a problem with generating closing file report
+                MessageBox.Show("Closing File Error. " + eM.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -582,6 +587,7 @@ BagelSizeCosts[SizeListBox.SelectedIndex]).ToString("C");
 
         private void ClearMainButton_Click(object sender, EventArgs e)
         {
+            // clear all values
             this.SizeListBox.SelectedIndex = -1;
             this.BagelTypeListBox.SelectedIndex = -1;
             this.QuantityTextBox.Clear();
@@ -603,6 +609,7 @@ BagelSizeCosts[SizeListBox.SelectedIndex]).ToString("C");
         private void SummaryButton_Click(object sender, EventArgs e)
         {
             int TotalLinesFile = CalculateFileLines();
+            // check if there are actually orders on file
             if(TotalLinesFile > 0)
             {
                 int TransactionsToday = 0;
@@ -619,14 +626,18 @@ BagelSizeCosts[SizeListBox.SelectedIndex]).ToString("C");
                 {
                     if (LineRead == DateReceipt)
                     {
+                        // if current line matches todays date this is a transaction
                         TransactionsToday += 1;
                         SalesOverallToday += Convert.ToDecimal(OutputFile.ReadLine());
+                        // keep iteratig through an order until delimiter ------ reached
+                        // this allows us to pick up each row of an order
                         while (!LineRead.Equals(ENDORDER))
                         {
+                            // split our tab delimited values -> type, size, quantity, cost
                             String[] words = LineRead.Split("\t");
-                            //Debug.WriteLine(words.Length);
                             if (words.Length > 1)
                             {
+                                // get the quantity of bagels sold for this transaction value
                                 BagelsSoldToday += int.Parse(words[2]);
                                 LineRead = OutputFile.ReadLine();
                             }
@@ -638,13 +649,13 @@ BagelSizeCosts[SizeListBox.SelectedIndex]).ToString("C");
                     }
                     else
                     {
-                        //Prev = LineRead;
                         LineRead = OutputFile.ReadLine();
                     }
                 }
                 OutputFile.Close();
                 // call seperate form to display summary values
                 // handle division by 0
+                // we can have this if there are orders on file but none for todays date
                 if (TransactionsToday > 0)
                 {
                     AvgSaleToday = SalesOverallToday / TransactionsToday;
@@ -660,6 +671,7 @@ BagelSizeCosts[SizeListBox.SelectedIndex]).ToString("C");
             }
             else
             {
+                // if no orders at all on file display message
                 MessageBox.Show("No Previous Order Details on File.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -670,6 +682,7 @@ BagelSizeCosts[SizeListBox.SelectedIndex]).ToString("C");
             {
                 String TimeReport = DateTime.Now.ToString("yyyy-MM-dd hh:mm");
                 StreamWriter InputFile = System.IO.File.AppendText(MANAGERSTOCKREPORT);
+                // opening titles for report file
                 InputFile.WriteLine("MyBagelShop LTD." + System.Environment.NewLine);
                 InputFile.WriteLine("Manager Stock Report Generated on " + TimeReport + System.Environment.NewLine);
                 String Title1 = "Item/Size";
@@ -680,10 +693,12 @@ BagelSizeCosts[SizeListBox.SelectedIndex]).ToString("C");
                     for (int j = 0; j < BagelSize.Length; j++)
                     {
                         String TypeSize = BagelTypes[i] + ", " + BagelSize[j];
+                        // padright to ensure consistent distances between strings
                         InputFile.WriteLine(TypeSize.PadRight(35) + StockAvailable[i, j].ToString());
                     }
                 }
                 InputFile.Close();
+                // let user know the file has been generated
                 MessageBox.Show("Stock Report File Generated Successfully.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
             }
@@ -698,7 +713,13 @@ BagelSizeCosts[SizeListBox.SelectedIndex]).ToString("C");
             String DateReceipt = DateTime.Now.ToString("yyyy-MM-dd hh:mm");
             String Day = DateTime.Now.ToString("yyyy-MM-dd");
             String SummaryReportText = "MyBagelShop Manager Sales Report " + DateReceipt;
+            // using a dictionary for unique sales
+            // we don't want a bagel to be repeated just because its been ordered in 2 sep orders
+            // a dictionary will allow us to find values already added to dictionary and increase its keys
+            // we will have a decimal list for 2 values, number of specific bagel size/type ordered
+            // and also the cost these orders incurred
             Dictionary<string, Decimal[]> SalesDataset = new Dictionary<string, Decimal[]>();
+            // open our order details file to iterate through
             StreamReader OutputFile = System.IO.File.OpenText(ORDERDETAILS);
             String LineRead = OutputFile.ReadLine();
             while(LineRead != null)
@@ -714,7 +735,7 @@ BagelSizeCosts[SizeListBox.SelectedIndex]).ToString("C");
                             Decimal Quant = Convert.ToDecimal(words[2]);
                             Decimal SalesPrice = Convert.ToDecimal(words[3]);
                             Decimal[] ItemDetail = {Quant, SalesPrice};
-                            //SalesDataset.Add()
+                            // if nothing in dictionary add as key
                             if (SalesDataset.Count < 1)
                             {
                                 SalesDataset.Add(Combo, ItemDetail);
@@ -722,6 +743,7 @@ BagelSizeCosts[SizeListBox.SelectedIndex]).ToString("C");
                             }
                             else
                             {
+                                // if key in dictionary increase its values
                                 if (SalesDataset.ContainsKey(Combo))
                                 {
                                     SalesDataset[Combo][0] += Quant;
@@ -730,6 +752,7 @@ BagelSizeCosts[SizeListBox.SelectedIndex]).ToString("C");
                                 }
                                 else
                                 {
+                                    // add value if not already in dictionary
                                     SalesDataset.Add(Combo, ItemDetail);
                                     LineRead = OutputFile.ReadLine();
                                 }
@@ -747,12 +770,14 @@ BagelSizeCosts[SizeListBox.SelectedIndex]).ToString("C");
                 }
             }
             OutputFile.Close();
+            // create a list of strings to display on another form
+            // each string with be a key along with the two values from its list value
             List<String> DailyAmounts = new List<String>();
             foreach (KeyValuePair<string, Decimal[]> kvp in SalesDataset)
             {
-                //StockCountListBox.Items.Add(kvp.Key + (kvp.Value[0]).ToString() + (kvp.Value[1]).ToString());
-                DailyAmounts.Add(kvp.Key.ToString() + ": " + kvp.Value[0].ToString() + " Sold, " + "Sales Amount is €" + kvp.Value[1].ToString() + System.Environment.NewLine);
+                DailyAmounts.Add(kvp.Key.ToString() + ": " + kvp.Value[0].ToString() + " Sold, " + "Sales Amount is " + kvp.Value[1].ToString("C") + System.Environment.NewLine);
             }
+            // display our information on a seperate form as per specification
             ManagementSummaryForm MyMangementSummaryForm = new ManagementSummaryForm();
             MyMangementSummaryForm.DisplayManagementSummaryForm(SummaryReportText, DailyAmounts);
             MyMangementSummaryForm.ShowDialog();
