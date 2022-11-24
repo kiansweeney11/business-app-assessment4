@@ -74,7 +74,7 @@ namespace MyBagelShop
         // denotes new order when searching
         const string ENDORDER = "------";
 
-        // list to store current basket details
+        // list to store current basket details - indexes etc
         List<int[]> Basket = new List<int[]>();
 
         // list to store what type of bagel being sold
@@ -104,7 +104,7 @@ namespace MyBagelShop
             List<decimal> BasketRowValues = new List<decimal>();
             for (int i = 0; i < Basket.Count; i++)
             {
-                // get cost for each line
+                // get cost for each line using generated array
                 decimal TotalCostRow = STOCKPRICES[Basket[i][0], Basket[i][1]] * Basket[i][2];
                 BasketRowValues.Add(TotalCostRow);
             }
@@ -169,7 +169,7 @@ namespace MyBagelShop
             int FileLines = CalculateFileLines();
             Random Rand = new Random();
             // generate random ID
-            int rand = Rand.Next(1000, 99999);
+            int rand = Rand.Next(10000, 99999);
             if (FileLines >= 1)
             {
                 StreamReader OutputFile = System.IO.File.OpenText(ORDERDETAILS);
@@ -242,7 +242,7 @@ namespace MyBagelShop
                     {
                         MessageBox.Show("Selected number of Bagel Size/Type out of stock\n",
    "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        // changes quantity textbox to max quantity of selected item available
+                        // clear textbox as no stock -> then focus
                         this.QuantityTextBox.Clear();
                         this.QuantityTextBox.Focus();
 
@@ -329,7 +329,7 @@ namespace MyBagelShop
                                 String[] words = Details.Split("\t");
                                 if (words.Length > 1)
                                 {
-                                    SearchFormListBox.Items.Add("Order Details included: " + Details);
+                                    SearchFormListBox.Items.Add("Order Details: " + Details);
                                     Details = OutputFile.ReadLine();
                                 }
                                 else
@@ -389,7 +389,7 @@ namespace MyBagelShop
                                 String[] words = Details.Split("\t");
                                 if (words.Length > 1)
                                 {
-                                    SearchFormListBox.Items.Add("Order Details include the following: " + Details);
+                                    SearchFormListBox.Items.Add("Order Details: " + Details);
                                     Details = OutputFile.ReadLine();
                                 }
                                 else
@@ -452,15 +452,14 @@ namespace MyBagelShop
         {
             // need to load in our prices from file and stock array
             // this function concerns our stockavailable arrays
-            // if the previous days closing file exists use this to populate array stock
             if (System.IO.File.Exists(PRICEDETAILS))
             {
                 try
                 {
-                    String[] liness = System.IO.File.ReadAllLines(PRICEDETAILS);
-                    for (int i = 0; i < liness.Length; i++)
+                    String[] FileLines = System.IO.File.ReadAllLines(PRICEDETAILS);
+                    for (int i = 0; i < FileLines.Length; i++)
                     {
-                        String[] words = liness[i].Split(",");
+                        String[] words = FileLines[i].Split(",");
                         for(int j = 0; j < words.Length; j++)
                         {
                             STOCKPRICES[i, j] = Convert.ToDecimal(words[j]);
@@ -474,6 +473,7 @@ namespace MyBagelShop
                 }
             }
             else
+            // generate file from our 2 one dimensional arrays
             {
                 try
                 {
@@ -506,6 +506,7 @@ namespace MyBagelShop
 
             Debug.WriteLine(STOCKPRICES[0, 1]);
             // now update array of stock
+            // if the previous days closing file exists use this to populate array stock
             if (System.IO.File.Exists(CLOSINGFILE))
             {
                 try
