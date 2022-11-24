@@ -47,12 +47,10 @@
             // 
             // StockCountListBox
             // 
-            this.StockCountListBox.Enabled = false;
-            this.StockCountListBox.FormattingEnabled = true;
             this.StockCountListBox.ItemHeight = 28;
             this.StockCountListBox.Location = new System.Drawing.Point(147, 206);
             this.StockCountListBox.Name = "StockCountListBox";
-            this.StockCountListBox.Size = new System.Drawing.Size(654, 172);
+            this.StockCountListBox.Size = new System.Drawing.Size(654, 200);
             this.StockCountListBox.TabIndex = 1;
             // 
             // DateSumTextBox
@@ -68,7 +66,7 @@
             // 
             this.SummaryManagementLabel.AutoSize = true;
             this.SummaryManagementLabel.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point);
-            this.SummaryManagementLabel.Location = new System.Drawing.Point(326, 399);
+            this.SummaryManagementLabel.Location = new System.Drawing.Point(326, 423);
             this.SummaryManagementLabel.Name = "SummaryManagementLabel";
             this.SummaryManagementLabel.Size = new System.Drawing.Size(300, 112);
             this.SummaryManagementLabel.TabIndex = 3;
@@ -79,7 +77,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 28F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(960, 536);
+            this.ClientSize = new System.Drawing.Size(960, 544);
             this.Controls.Add(this.SummaryManagementLabel);
             this.Controls.Add(this.DateSumTextBox);
             this.Controls.Add(this.StockCountListBox);

@@ -21,10 +21,10 @@ namespace MyBagelShop
         public void DisplayManagementSummaryForm(String Time, List<String> Vals)
         {
             DateSumTextBox.Text = Time;
-            for(int i = 0; i < Vals.Count; i++)
-            {
-                StockCountListBox.Items.Add(Vals[i]);
-            }
+            for (int i = 0; i < Vals.Count; i++)
+                {
+                    StockCountListBox.Items.Add(Vals[i]);
+                }
             this.Text = "Daily Items Sold Breakdown per Item";
         }
     }

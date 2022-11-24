@@ -23,26 +23,30 @@ using static System.Windows.Forms.VisualStyles.VisualStyleElement.ListView;
 using System.Xml.Serialization;
 using System.Transactions;
 using System.Text;
+using System.Drawing.Printing;
 
 namespace MyBagelShop
 {
     public partial class MainBagelForm : Form
     {
         // this contains the 13 different types of bagels for sale
-        public static string[] BagelTypes { get; set; } = { "Plain", "Whole Wheat", "Garlic",
+        // name ideas found from here https://worstroom.com/types-of-bagels/
+        public static string[] BAGELTYPES { get; set; } = { "Plain", "Whole Wheat", "Garlic",
                                                             "Toasted", "Onion", "French Toast", "Multigrain",
                                                            "Cinnamon Raisin", "Blueberry", "Chocolate Chip", 
                                                             "Salt", "Poppy Seed", "Pumpernickel"};
 
-        // array for type of bagel costs
-        public static decimal[] BagelTypeCosts { get; set; } = {2m, 2.2m, 2.4m, 2.5m, 2.65m, 2.75m, 2.8m, 2.9m, 2.8m,
+        // array for type of bagel costs - need to generate for initial costs file
+        public static decimal[] BAGELTYPECOSTS { get; set; } = {2m, 2.2m, 2.4m, 2.5m, 2.65m, 2.75m, 2.8m, 2.9m, 2.8m,
                                                                 3m, 2.75m, 2.6m, 3.1m};
         // this array contains the 5 different sizes of bagels
-        public static string[] BagelSize { get; set; } = {"Small", "Medium", "Regular", "Large", "Extra-Large" };
+        public static string[] BAGELSIZE { get; set; } = {"Small", "Medium", "Regular", "Large", "Extra-Large" };
 
         // openingstock is the array with our initial values for the day
         const int ROW_SIZE = 13, COLUMN_SIZE = 5;
         public static int[,] OpeningStock = new int[ROW_SIZE, COLUMN_SIZE];
+        // array to be filled from file with prices
+        public static decimal[,] STOCKPRICES = new decimal[ROW_SIZE, COLUMN_SIZE];
 
         // array for the starting stock
         // read in if no values for previous closing i.e the start
@@ -60,12 +64,13 @@ namespace MyBagelShop
                                                                 { 20, 20, 20, 20, 20},
                                                                 { 20, 20, 20, 20, 20}};
         // array for bagel size costs
-        public static decimal[] BagelSizeCosts { get; set; } = {0.00m, 0.2m, 0.4m, 0.6m, 1m};
+        public static decimal[] BAGELSIZECOSTS { get; set; } = {0.00m, 0.2m, 0.4m, 0.6m, 1m};
 
         // file names constants
         const string CLOSINGFILE = "ClosingReport.txt";
         const string ORDERDETAILS = "OrderDetails.txt";
         const string MANAGERSTOCKREPORT = "ManagerStockReport.txt";
+        const string PRICEDETAILS = "PriceDetails.txt";
         // denotes new order when searching
         const string ENDORDER = "------";
 
@@ -91,15 +96,16 @@ namespace MyBagelShop
             CompanyReceipt MyCompanyReceipt = new CompanyReceipt();
             for (int i = 0; i < Basket.Count; i++)
             {
-                // get total order cost
-                TotalCostOrder += (BagelTypeCosts[Basket[i][0]] + BagelSizeCosts[Basket[i][1]]) * Basket[i][2];
+                //TotalCostOrder += (BAGELTYPECOSTS[Basket[i][0]] + BAGELSIZECOSTS[Basket[i][1]]) * Basket[i][2];
+                // use our generated array to get total order cost
+                TotalCostOrder += STOCKPRICES[Basket[i][0], Basket[i][1]] * Basket[i][2];
             }
             // get value of each row as per spec
             List<decimal> BasketRowValues = new List<decimal>();
             for (int i = 0; i < Basket.Count; i++)
             {
                 // get cost for each line
-                decimal TotalCostRow = (BagelTypeCosts[Basket[i][0]] + BagelSizeCosts[Basket[i][1]]) * Basket[i][2];
+                decimal TotalCostRow = STOCKPRICES[Basket[i][0], Basket[i][1]] * Basket[i][2];
                 BasketRowValues.Add(TotalCostRow);
             }
             DateReceipt = DateTime.Now.ToString("yyyy-MM-dd");
@@ -107,7 +113,7 @@ namespace MyBagelShop
             // create string with newlines of all ordered items
             for(int i = 0; i < BasketRowValues.Count; i++)
             {
-                OrderDetailsReceipt += (BagelTypes[Basket[i][0]].ToString()) + "\t" + (BagelSize[Basket[i][1]].ToString()) + "\t" + Basket[i][2] + "\t" + BasketRowValues[i].ToString("0.00") + System.Environment.NewLine;
+                OrderDetailsReceipt += (BAGELTYPES[Basket[i][0]].ToString()) + "\t" + (BAGELSIZE[Basket[i][1]].ToString()) + "\t" + Basket[i][2] + "\t" + BasketRowValues[i].ToString("0.00") + System.Environment.NewLine;
             }
             // append order details to file
             StreamWriter InputFile = System.IO.File.AppendText(ORDERDETAILS);
@@ -218,7 +224,6 @@ namespace MyBagelShop
                     // next, we need to check there is enough stock available
                     // if not we cannot complete the order
                     int StockCurrentAvailable = StockAvailable[BagelTypeSelectedIndex, BagelSizeSelectedIndex];
-
                     //need to subtract quantity if item is already in the basket
                     for (int i = 0; i < Basket.Count; i++)
                     {
@@ -232,13 +237,21 @@ namespace MyBagelShop
                             StockCurrentAvailable -= Basket[i][2];
                         }
                     }
-
                     // if desired amount not available focus throw a message box informing user
-                    if (QuantityOrderedCount > StockCurrentAvailable)
+                    if (StockCurrentAvailable == 0)
+                    {
+                        MessageBox.Show("Selected number of Bagel Size/Type out of stock\n",
+   "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        // changes quantity textbox to max quantity of selected item available
+                        this.QuantityTextBox.Clear();
+                        this.QuantityTextBox.Focus();
+
+                    }
+                    else if(QuantityOrderedCount > StockCurrentAvailable)
                     {
                         MessageBox.Show("Selected number of Bagel Size/Type out of stock\n" + "Current inputted total: " + QuantityOrderedCount.ToString() + "\n"
-                            + "Current stock available: " + StockCurrentAvailable.ToString(),
-                            "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+    + "Current stock available: " + StockCurrentAvailable.ToString(),
+    "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         // changes quantity textbox to max quantity of selected item available
                         this.QuantityTextBox.Text = StockCurrentAvailable.ToString();
                         this.QuantityTextBox.Focus();
@@ -246,8 +259,9 @@ namespace MyBagelShop
                     else
                     {
                         string Quant = QuantityOrderedCount.ToString();
-                        string Details = BagelTypes[BagelTypeSelectedIndex].PadRight(20) + "\t" 
-                            +  BagelSize[BagelSizeSelectedIndex].PadRight(35) + "\t" +
+                        // using 1d arrays for exact order details
+                        string Details = BAGELTYPES[BagelTypeSelectedIndex].PadRight(20) + "\t" 
+                            +  BAGELSIZE[BagelSizeSelectedIndex].PadRight(35) + "\t" +
                                           Quant.PadRight(40) +  "\n";
                         // add order items to listbox showing whats current order contains
                         CurrentBasketDetailsListBox.Items.Add(Details);
@@ -258,6 +272,7 @@ namespace MyBagelShop
                         CompleteOrderButton.Enabled = true;
                         CompleteOrderButton.Focus();
 
+                        // calculation happens here
                         UpdateBasketTotals();
                         this.QuantityTextBox.Clear();
                         // display listbox to show what current customer has ordered so far
@@ -280,6 +295,7 @@ namespace MyBagelShop
         {
             ClearMainButton_Click(sender, e);
             this.BagelTypeGroupBox.Visible = false;
+            this.SearchMainForm.Enabled = false;
             this.SizeGroupBox.Visible = false;
             this.SearchFormGroupBox.Visible = true;
         }
@@ -434,17 +450,71 @@ namespace MyBagelShop
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            // need to load in our prices from file and stock array
             // this function concerns our stockavailable arrays
             // if the previous days closing file exists use this to populate array stock
+            if (System.IO.File.Exists(PRICEDETAILS))
+            {
+                try
+                {
+                    String[] liness = System.IO.File.ReadAllLines(PRICEDETAILS);
+                    for (int i = 0; i < liness.Length; i++)
+                    {
+                        String[] words = liness[i].Split(",");
+                        for(int j = 0; j < words.Length; j++)
+                        {
+                            STOCKPRICES[i, j] = Convert.ToDecimal(words[j]);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // if there is any error accessing the prices file
+                    MessageBox.Show("Can't access price list file. Using default array. Error is: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            else
+            {
+                try
+                {
+                    StreamWriter InputFile = System.IO.File.AppendText(PRICEDETAILS);
+                    for (int i = 0; i < BAGELTYPES.Length; i++)
+                    {
+                        for (int j = 0; j < BAGELSIZE.Length; j++)
+                        {
+                            Decimal Row = BAGELTYPECOSTS[i] + BAGELSIZECOSTS[j];
+                            STOCKPRICES[i, j] = Row;
+                            // handle last string having a comma
+                            if(j + 1 == BAGELSIZE.Length)
+                            {
+                                InputFile.Write(Row.ToString("0.00"));
+                            }
+                            else
+                            {
+                                InputFile.Write(Row.ToString("0.00") + ",");
+                            }
+                        }
+                        InputFile.Write("\n");
+                    }
+                    InputFile.Close();
+                }
+                catch(Exception ex)
+                {
+                    MessageBox.Show("Can't access price list file. Using default array. Error is: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+
+            Debug.WriteLine(STOCKPRICES[0, 1]);
+            // now update array of stock
             if (System.IO.File.Exists(CLOSINGFILE))
             {
                 try
                 {
                     StreamReader InputFile = System.IO.File.OpenText(CLOSINGFILE);
                     //Read File and Save to PlacesAvailable
-                    for (int i = 0; i < BagelTypes.Length; i++)
+                    for (int i = 0; i < BAGELTYPES.Length; i++)
                     {
-                        for (int j = 0; j < BagelSize.Length; j++)
+                        for (int j = 0; j < BAGELSIZE.Length; j++)
                         {
                             string Line = InputFile.ReadLine();
 
@@ -469,9 +539,9 @@ namespace MyBagelShop
             //in case where there is no Closing Stock file, the array StockAvailable is taken as Opening Stock
             else
             {
-                for (int i = 0; i < BagelTypes.Length; i++)
+                for (int i = 0; i < BAGELTYPES.Length; i++)
                 {
-                    for (int j = 0; j < BagelSize.Length; j++)
+                    for (int j = 0; j < BAGELSIZE.Length; j++)
                     {
                         OpeningStock[i, j] = StockAvailable[i, j];
                     }
@@ -488,11 +558,11 @@ namespace MyBagelShop
                 StreamWriter OutputFile = System.IO.File.AppendText(CLOSINGFILE);
                 //open file as text file and append client details to end of text file
                 {
-                    for (int i = 0; i < BagelTypes.Length; i++)
+                    for (int i = 0; i < BAGELTYPES.Length; i++)
                     {
-                        for (int j = 0; j < BagelSize.Length; j++)
+                        for (int j = 0; j < BAGELSIZE.Length; j++)
                         {
-                            OutputFile.WriteLine(BagelTypes[i] + ", " + BagelSize[j] + ":" + StockAvailable[i, j]);
+                            OutputFile.WriteLine(BAGELTYPES[i] + ", " + BAGELSIZE[j] + ":" + StockAvailable[i, j]);
                         }
                     }
                     OutputFile.Close();
@@ -512,14 +582,13 @@ namespace MyBagelShop
             if(SizeListBox.SelectedIndex != -1 && SizeListBox.SelectedIndex != -1)
             {
                 // handle any potential error if other index not selected
-                this.OptionSelectedPriceTextBox.Text = (BagelTypeCosts[BagelTypeListBox.SelectedIndex] +
-                    BagelSizeCosts[SizeListBox.SelectedIndex]).ToString("C");
+                this.OptionSelectedPriceTextBox.Text = (STOCKPRICES[BagelTypeListBox.SelectedIndex, SizeListBox.SelectedIndex]).ToString("C");
                 // only display quantity when other values selected
                 this.OrderQuantityGroupBox.Visible = true;
             }
             else if (SizeListBox.SelectedIndex == -1 && BagelTypeListBox.SelectedIndex == -1)
             {
-                //this.OptionSelectedPriceTextBox.Text = (BagelSizeCosts[SizeListBox.SelectedIndex]).ToString("C");
+                //this.OptionSelectedPriceTextBox.Text = (BAGELSIZECOSTS[SizeListBox.SelectedIndex]).ToString("C");
             }
         }
 
@@ -533,14 +602,13 @@ namespace MyBagelShop
             this.PriceDisplayGroupBox.Visible = true;
             if (BagelTypeListBox.SelectedIndex != -1 && SizeListBox.SelectedIndex != -1)
             {
-                this.OptionSelectedPriceTextBox.Text = (BagelTypeCosts[BagelTypeListBox.SelectedIndex] +
-                    BagelSizeCosts[SizeListBox.SelectedIndex]).ToString("C");
+                this.OptionSelectedPriceTextBox.Text = (STOCKPRICES[BagelTypeListBox.SelectedIndex, SizeListBox.SelectedIndex]).ToString("C");
                 // only display quantity when other values selected
                 this.OrderQuantityGroupBox.Visible = true;
             }
             else if(SizeListBox.SelectedIndex == -1 && BagelTypeListBox.SelectedIndex == -1)
             {
-                //this.OptionSelectedPriceTextBox.Text = (BagelSizeCosts[SizeListBox.SelectedIndex]).ToString("C");
+                //this.OptionSelectedPriceTextBox.Text = (BAGELSIZECOSTS[SizeListBox.SelectedIndex]).ToString("C");
             }
         }
 
@@ -551,23 +619,20 @@ namespace MyBagelShop
             {
                 if (BagelTypeListBox.SelectedIndex != -1 && SizeListBox.SelectedIndex != -1)
                 {
-                    this.OptionSelectedPriceTextBox.Text = (BagelTypeCosts[BagelTypeListBox.SelectedIndex] +
-BagelSizeCosts[SizeListBox.SelectedIndex]).ToString("C");
+                    this.OptionSelectedPriceTextBox.Text = (STOCKPRICES[BagelTypeListBox.SelectedIndex, SizeListBox.SelectedIndex]).ToString("C");
                     this.ValidAmountLabel.Visible = true;
                     this.AddOrderButton.Enabled = false;
                 }
             }
             else
             {
-                this.OptionSelectedPriceTextBox.Text = ((BagelTypeCosts[BagelTypeListBox.SelectedIndex] +
-        BagelSizeCosts[SizeListBox.SelectedIndex]) * QuantityOrderedCount).ToString("C");
+                this.OptionSelectedPriceTextBox.Text = ((STOCKPRICES[BagelTypeListBox.SelectedIndex, SizeListBox.SelectedIndex]) * QuantityOrderedCount).ToString("C");
                 this.ValidAmountLabel.Visible = false;
                 // don't enable unless valid value inputted
                 this.AddOrderButton.Enabled = true;
             }
             
         }
-
         private void UpdateBasketTotals()
         {
             //calculate and display basket totals
@@ -575,11 +640,10 @@ BagelSizeCosts[SizeListBox.SelectedIndex]).ToString("C");
             int TotalStockOrder = 0;
             for (int i = 0; i < Basket.Count; i++)
             {
-                decimal Val = (BagelTypeCosts[Basket[i][0]]) + (BagelSizeCosts[Basket[i][1]]);
+                // using our generated array for prices
+                decimal Val = STOCKPRICES[Basket[i][0], Basket[i][1]];
                 TotalBasketCost += Val * QuantityOrderedCount;
-
                 TotalStockOrder += Basket[i][2];
-
             }
             TotalSalesOrderTextBox.Text = TotalBasketCost.ToString("C");
             TotalOrderedStockTextBox.Text = TotalStockOrder.ToString();
@@ -600,6 +664,7 @@ BagelSizeCosts[SizeListBox.SelectedIndex]).ToString("C");
             this.AddOrderButton.Enabled = false;
             this.CompleteOrderButton.Enabled = false;
             this.BagelTypeGroupBox.Visible = true;
+            this.SearchMainForm.Enabled = true;
             this.SizeGroupBox.Visible = true;
             this.SearchFormGroupBox.Visible = false;
             this.SearchResultGroupBox.Visible = false;
@@ -688,11 +753,11 @@ BagelSizeCosts[SizeListBox.SelectedIndex]).ToString("C");
                 String Title1 = "Item/Size";
                 String Title2 = "Stock Remaining";
                 InputFile.WriteLine(Title1.PadRight(35) + Title2);
-                for (int i = 0; i < BagelTypes.Length; i++)
+                for (int i = 0; i < BAGELTYPES.Length; i++)
                 {
-                    for (int j = 0; j < BagelSize.Length; j++)
+                    for (int j = 0; j < BAGELSIZE.Length; j++)
                     {
-                        String TypeSize = BagelTypes[i] + ", " + BagelSize[j];
+                        String TypeSize = BAGELTYPES[i] + ", " + BAGELSIZE[j];
                         // padright to ensure consistent distances between strings
                         InputFile.WriteLine(TypeSize.PadRight(35) + StockAvailable[i, j].ToString());
                     }
@@ -777,11 +842,18 @@ BagelSizeCosts[SizeListBox.SelectedIndex]).ToString("C");
             {
                 DailyAmounts.Add(kvp.Key.ToString() + ": " + kvp.Value[0].ToString() + " Sold, " + "Sales Amount is " + kvp.Value[1].ToString("C") + System.Environment.NewLine);
             }
-            // display our information on a seperate form as per specification
-            ManagementSummaryForm MyMangementSummaryForm = new ManagementSummaryForm();
-            MyMangementSummaryForm.DisplayManagementSummaryForm(SummaryReportText, DailyAmounts);
-            MyMangementSummaryForm.ShowDialog();
-            ClearMainButton_Click(sender, e);
+            if(SalesDataset.Count > 1)
+            {
+                // display our information on a seperate form as per specification
+                ManagementSummaryForm MyMangementSummaryForm = new ManagementSummaryForm();
+                MyMangementSummaryForm.DisplayManagementSummaryForm(SummaryReportText, DailyAmounts);
+                MyMangementSummaryForm.ShowDialog();
+                ClearMainButton_Click(sender, e);
+            }
+            else
+            {
+                MessageBox.Show("No Sales to report Today!", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
     }
 }

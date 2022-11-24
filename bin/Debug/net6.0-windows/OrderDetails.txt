@@ -1,10 +1,33 @@
-76087
-2022-11-18
+88611
+2022-11-24
 18.00
 Plain	Small	9	18.00
 ------
-20363
-2022-11-18
-4.00
-Plain	Small	2	4.00
+82497
+2022-11-24
+9.80
+Plain	Small	1	2.00
+Garlic	Medium	3	7.80
+------
+17512
+2022-11-24
+7.80
+Cinnamon Raisin	Extra-Large	2	7.80
+------
+91338
+2022-11-24
+4.40
+Plain	Medium	2	4.40
+------
+18670
+2022-11-24
+3.05
+Onion	Regular	1	3.05
+------
+23956
+2022-11-24
+16.55
+French Toast	Regular	3	9.45
+Pumpernickel	Extra-Large	1	4.10
+Chocolate Chip	Small	1	3.00
 ------
