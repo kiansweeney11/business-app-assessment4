@@ -1,11 +1,11 @@
 MyBagelShop LTD.
 
-Manager Stock Report Generated on 2022-11-24 04:46
+Manager Stock Report Generated on 2022-11-26 10:35
 
 Item/Size                          Stock Remaining
-Plain, Small                       0
+Plain, Small                       10
 Plain, Medium                      20
-Plain, Regular                     25
+Plain, Regular                     23
 Plain, Large                       29
 Plain, Extra-Large                 30
 Whole Wheat, Small                 14
@@ -14,7 +14,7 @@ Whole Wheat, Regular               6
 Whole Wheat, Large                 23
 Whole Wheat, Extra-Large           5
 Garlic, Small                      25
-Garlic, Medium                     7
+Garlic, Medium                     10
 Garlic, Regular                    23
 Garlic, Large                      12
 Garlic, Extra-Large                11
@@ -23,7 +23,7 @@ Toasted, Medium                    16
 Toasted, Regular                   15
 Toasted, Large                     33
 Toasted, Extra-Large               30
-Onion, Small                       20
+Onion, Small                       18
 Onion, Medium                      45
 Onion, Regular                     30
 Onion, Large                       35
@@ -68,73 +68,3 @@ Pumpernickel, Medium               20
 Pumpernickel, Regular              20
 Pumpernickel, Large                20
 Pumpernickel, Extra-Large          20
-MyBagelShop LTD.
-
-Manager Stock Report Generated on 2022-11-24 04:48
-
-Item/Size                          Stock Remaining
-Plain, Small                       0
-Plain, Medium                      18
-Plain, Regular                     25
-Plain, Large                       29
-Plain, Extra-Large                 30
-Whole Wheat, Small                 14
-Whole Wheat, Medium                17
-Whole Wheat, Regular               6
-Whole Wheat, Large                 23
-Whole Wheat, Extra-Large           5
-Garlic, Small                      25
-Garlic, Medium                     7
-Garlic, Regular                    23
-Garlic, Large                      12
-Garlic, Extra-Large                11
-Toasted, Small                     17
-Toasted, Medium                    16
-Toasted, Regular                   15
-Toasted, Large                     33
-Toasted, Extra-Large               30
-Onion, Small                       20
-Onion, Medium                      45
-Onion, Regular                     29
-Onion, Large                       35
-Onion, Extra-Large                 45
-French Toast, Small                22
-French Toast, Medium               21
-French Toast, Regular              24
-French Toast, Large                35
-French Toast, Extra-Large          10
-Multigrain, Small                  11
-Multigrain, Medium                 20
-Multigrain, Regular                8
-Multigrain, Large                  15
-Multigrain, Extra-Large            20
-Cinnamon Raisin, Small             25
-Cinnamon Raisin, Medium            30
-Cinnamon Raisin, Regular           13
-Cinnamon Raisin, Large             20
-Cinnamon Raisin, Extra-Large       23
-Blueberry, Small                   5
-Blueberry, Medium                  9
-Blueberry, Regular                 11
-Blueberry, Large                   18
-Blueberry, Extra-Large             22
-Chocolate Chip, Small              3
-Chocolate Chip, Medium             6
-Chocolate Chip, Regular            8
-Chocolate Chip, Large              10
-Chocolate Chip, Extra-Large        10
-Salt, Small                        20
-Salt, Medium                       20
-Salt, Regular                      20
-Salt, Large                        20
-Salt, Extra-Large                  20
-Poppy Seed, Small                  20
-Poppy Seed, Medium                 20
-Poppy Seed, Regular                20
-Poppy Seed, Large                  20
-Poppy Seed, Extra-Large            20
-Pumpernickel, Small                20
-Pumpernickel, Medium               20
-Pumpernickel, Regular              20
-Pumpernickel, Large                20
-Pumpernickel, Extra-Large          19

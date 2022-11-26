@@ -276,6 +276,7 @@ namespace MyBagelShop
                         UpdateBasketTotals();
                         this.QuantityTextBox.Clear();
                         // display listbox to show what current customer has ordered so far
+                        this.CurrentBasketGroupBox.Visible = true;
                         this.CurrentBasketDetailsListBox.Visible = true;
                         this.CurrentBasketTotalGroupBox.Visible = true;
                     }
@@ -503,8 +504,8 @@ namespace MyBagelShop
                     MessageBox.Show("Can't access price list file. Using default array. Error is: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
+            //Debug.WriteLine(STOCKPRICES[0, 1]);
 
-            Debug.WriteLine(STOCKPRICES[0, 1]);
             // now update array of stock
             // if the previous days closing file exists use this to populate array stock
             if (System.IO.File.Exists(CLOSINGFILE))
@@ -660,10 +661,11 @@ namespace MyBagelShop
             this.OrderQuantityGroupBox.Visible = false;
             this.PriceDisplayGroupBox.Visible = false;
             this.CurrentBasketTotalGroupBox.Visible = false;
-            this.CurrentBasketDetailsListBox.Visible = false;
+            this.CurrentBasketGroupBox.Visible = false;
             this.CurrentBasketDetailsListBox.Items.Clear();
             this.AddOrderButton.Enabled = false;
             this.CompleteOrderButton.Enabled = false;
+            this.CurrentBasketDetailsListBox.Visible = false;
             this.BagelTypeGroupBox.Visible = true;
             this.SearchMainForm.Enabled = true;
             this.SizeGroupBox.Visible = true;

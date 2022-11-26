@@ -77,6 +77,10 @@
             this.ClearToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.ExitToolTip = new System.Windows.Forms.ToolTip(this.components);
             this.SearchPrevToolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.CurrentBasketGroupBox = new System.Windows.Forms.GroupBox();
+            this.QuantCurrentBasketLabel = new System.Windows.Forms.Label();
+            this.SizeCurrentBasketLabel = new System.Windows.Forms.Label();
+            this.TypeCurrentBasketLabel = new System.Windows.Forms.Label();
             this.BagelTypeGroupBox.SuspendLayout();
             this.SearchResultGroupBox.SuspendLayout();
             this.SizeGroupBox.SuspendLayout();
@@ -85,6 +89,7 @@
             this.CurrentBasketTotalGroupBox.SuspendLayout();
             this.SearchFormGroupBox.SuspendLayout();
             this.ButtonPanel.SuspendLayout();
+            this.CurrentBasketGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // CompleteOrderButton
@@ -394,9 +399,9 @@
             // 
             this.CurrentBasketDetailsListBox.FormattingEnabled = true;
             this.CurrentBasketDetailsListBox.ItemHeight = 28;
-            this.CurrentBasketDetailsListBox.Location = new System.Drawing.Point(727, 481);
+            this.CurrentBasketDetailsListBox.Location = new System.Drawing.Point(21, 61);
             this.CurrentBasketDetailsListBox.Name = "CurrentBasketDetailsListBox";
-            this.CurrentBasketDetailsListBox.Size = new System.Drawing.Size(586, 256);
+            this.CurrentBasketDetailsListBox.Size = new System.Drawing.Size(571, 172);
             this.CurrentBasketDetailsListBox.TabIndex = 9;
             this.CurrentBasketDetailsListBox.Visible = false;
             // 
@@ -582,15 +587,57 @@
             this.SearchPrevToolTip.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
             this.SearchPrevToolTip.ToolTipTitle = "Info";
             // 
+            // CurrentBasketGroupBox
+            // 
+            this.CurrentBasketGroupBox.BackColor = System.Drawing.SystemColors.Window;
+            this.CurrentBasketGroupBox.Controls.Add(this.QuantCurrentBasketLabel);
+            this.CurrentBasketGroupBox.Controls.Add(this.SizeCurrentBasketLabel);
+            this.CurrentBasketGroupBox.Controls.Add(this.TypeCurrentBasketLabel);
+            this.CurrentBasketGroupBox.Controls.Add(this.CurrentBasketDetailsListBox);
+            this.CurrentBasketGroupBox.Location = new System.Drawing.Point(712, 481);
+            this.CurrentBasketGroupBox.Name = "CurrentBasketGroupBox";
+            this.CurrentBasketGroupBox.Size = new System.Drawing.Size(605, 256);
+            this.CurrentBasketGroupBox.TabIndex = 14;
+            this.CurrentBasketGroupBox.TabStop = false;
+            this.CurrentBasketGroupBox.Text = "Current Basket Details";
+            this.CurrentBasketGroupBox.Visible = false;
+            // 
+            // QuantCurrentBasketLabel
+            // 
+            this.QuantCurrentBasketLabel.AutoSize = true;
+            this.QuantCurrentBasketLabel.Location = new System.Drawing.Point(462, 30);
+            this.QuantCurrentBasketLabel.Name = "QuantCurrentBasketLabel";
+            this.QuantCurrentBasketLabel.Size = new System.Drawing.Size(95, 28);
+            this.QuantCurrentBasketLabel.TabIndex = 12;
+            this.QuantCurrentBasketLabel.Text = "Quantity";
+            // 
+            // SizeCurrentBasketLabel
+            // 
+            this.SizeCurrentBasketLabel.AutoSize = true;
+            this.SizeCurrentBasketLabel.Location = new System.Drawing.Point(224, 30);
+            this.SizeCurrentBasketLabel.Name = "SizeCurrentBasketLabel";
+            this.SizeCurrentBasketLabel.Size = new System.Drawing.Size(50, 28);
+            this.SizeCurrentBasketLabel.TabIndex = 11;
+            this.SizeCurrentBasketLabel.Text = "Size";
+            // 
+            // TypeCurrentBasketLabel
+            // 
+            this.TypeCurrentBasketLabel.AutoSize = true;
+            this.TypeCurrentBasketLabel.Location = new System.Drawing.Point(21, 30);
+            this.TypeCurrentBasketLabel.Name = "TypeCurrentBasketLabel";
+            this.TypeCurrentBasketLabel.Size = new System.Drawing.Size(57, 28);
+            this.TypeCurrentBasketLabel.TabIndex = 10;
+            this.TypeCurrentBasketLabel.Text = "Type";
+            // 
             // MainBagelForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 28F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1325, 877);
+            this.Controls.Add(this.CurrentBasketGroupBox);
             this.Controls.Add(this.ButtonPanel);
             this.Controls.Add(this.SearchResultGroupBox);
             this.Controls.Add(this.SearchFormGroupBox);
-            this.Controls.Add(this.CurrentBasketDetailsListBox);
             this.Controls.Add(this.CurrentBasketTotalGroupBox);
             this.Controls.Add(this.PriceDisplayGroupBox);
             this.Controls.Add(this.OrderQuantityGroupBox);
@@ -616,6 +663,8 @@
             this.SearchFormGroupBox.ResumeLayout(false);
             this.SearchFormGroupBox.PerformLayout();
             this.ButtonPanel.ResumeLayout(false);
+            this.CurrentBasketGroupBox.ResumeLayout(false);
+            this.CurrentBasketGroupBox.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -669,5 +718,9 @@
         private ToolTip ClearToolTip;
         private ToolTip ExitToolTip;
         private ToolTip SearchPrevToolTip;
+        private GroupBox CurrentBasketGroupBox;
+        private Label QuantCurrentBasketLabel;
+        private Label SizeCurrentBasketLabel;
+        private Label TypeCurrentBasketLabel;
     }
 }
