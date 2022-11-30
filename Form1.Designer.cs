@@ -179,9 +179,9 @@
             // 
             this.SearchFormListBox.FormattingEnabled = true;
             this.SearchFormListBox.ItemHeight = 28;
-            this.SearchFormListBox.Location = new System.Drawing.Point(20, 54);
+            this.SearchFormListBox.Location = new System.Drawing.Point(7, 45);
             this.SearchFormListBox.Name = "SearchFormListBox";
-            this.SearchFormListBox.Size = new System.Drawing.Size(657, 172);
+            this.SearchFormListBox.Size = new System.Drawing.Size(681, 172);
             this.SearchFormListBox.TabIndex = 0;
             // 
             // SizeGroupBox

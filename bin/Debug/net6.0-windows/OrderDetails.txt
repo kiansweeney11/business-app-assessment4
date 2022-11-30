@@ -1,7 +1,44 @@
-76371
-2022-11-26
-17.90
-Plain	Regular	2	4.80
-Onion	Small	2	5.30
-Cinnamon Raisin	Extra-Large	2	7.80
+42243
+2022-11-28
+26.70
+Plain	Small	9	18.00
+Toasted	Regular	3	8.70
+------
+77550
+2022-11-27
+15.65
+Cinnamon Raisin	Medium	2	6.20
+Salt	Regular	3	9.45
+------
+44490
+2022-11-27
+17.60
+Garlic	Small	2	4.80
+Multigrain	Regular	4	12.80
+------
+18277
+2022-11-27
+146.00
+Onion	Extra-Large	10	36.50
+Onion	Extra-Large	10	36.50
+Onion	Extra-Large	10	36.50
+Onion	Extra-Large	10	36.50
+------
+21121
+2022-11-27
+8.70
+Toasted	Regular	3	8.70
+------
+79466
+2022-11-27
+9.90
+Pumpernickel	Medium	3	9.90
+------
+60090
+2022-11-27
+89.50
+Onion	Regular	10	30.50
+Onion	Medium	10	28.50
+Onion	Medium	10	28.50
+Plain	Small	1	2.00
 ------

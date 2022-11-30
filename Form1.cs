@@ -311,7 +311,7 @@ namespace MyBagelShop
             // these conditions are met
             if (IDRadioButton.Checked)
             {
-                if (TextBoxString.Length >= 1 && IsDigitsOnly(TextBoxString) == true)
+                if (TextBoxString.Length == 5 && IsDigitsOnly(TextBoxString) == true)
                 {
                     StreamReader OutputFile = System.IO.File.OpenText(ORDERDETAILS);
                     string LineRead = OutputFile.ReadLine();
@@ -330,7 +330,7 @@ namespace MyBagelShop
                                 String[] words = Details.Split("\t");
                                 if (words.Length > 1)
                                 {
-                                    SearchFormListBox.Items.Add("Order Details: " + Details);
+                                    SearchFormListBox.Items.Add("Details: " + Details);
                                     Details = OutputFile.ReadLine();
                                 }
                                 else
@@ -390,7 +390,7 @@ namespace MyBagelShop
                                 String[] words = Details.Split("\t");
                                 if (words.Length > 1)
                                 {
-                                    SearchFormListBox.Items.Add("Order Details: " + Details);
+                                    SearchFormListBox.Items.Add("Details: " + Details);
                                     Details = OutputFile.ReadLine();
                                 }
                                 else
